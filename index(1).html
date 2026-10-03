@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>بُنّان | Bunnan</title>
+  <meta name="description" content="منيو بُنّان — Bunnan menu">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="top">
+    <a class="brand" href="#">
+      <img src="logo.jpeg" alt="شعار بُنّان" width="44" height="44">
+      <span class="ar">بُنّان</span><span class="en">Bunnan</span>
+    </a>
+    <div class="actions">
+      <button id="lang" type="button" aria-label="Switch language">
+        <span class="ar">English</span><span class="en">العربية</span>
+      </button>
+      <!-- غيّر الرابط لنظام الطلبات أو واتساب -->
+      <a class="order" href="#">
+        <span class="ar">اطلب الآن</span><span class="en">Order now</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <img src="logo.jpeg" alt="شجرة بن بحبات حمراء" width="320" height="320">
+    <h1><span class="ar">منيو بُنّان</span><span class="en">Bunnan menu</span></h1>
+    <p><span class="ar">قهوة من الشجرة إلى الفنجان.</span><span class="en">Coffee, from the tree to the cup.</span></p>
+  </section>
+
+  <nav class="cats" aria-label="Categories">
+    <a href="#hot"><span class="ar">قهوة ساخنة</span><span class="en">Hot coffee</span></a>
+    <a href="#cold"><span class="ar">قهوة باردة</span><span class="en">Iced coffee</span></a>
+    <a href="#other"><span class="ar">مشروبات أخرى</span><span class="en">Other drinks</span></a>
+    <a href="#sweets"><span class="ar">حلويات</span><span class="en">Sweets</span></a>
+  </nav>
+
+  <main>
+    <!-- لإضافة صنف: انسخ سطر <li> كامل وغيّر الاسم والسعر -->
+    <section id="hot">
+      <h2><span class="ar">قهوة ساخنة</span><span class="en">Hot coffee</span></h2>
+      <ul>
+        <li><span class="name"><span class="ar">إسبريسو</span><span class="en">Espresso</span></span><b>12</b></li>
+        <li><span class="name"><span class="ar">أمريكانو</span><span class="en">Americano</span></span><b>14</b></li>
+        <li><span class="name"><span class="ar">لاتيه</span><span class="en">Latte</span></span><b>18</b></li>
+        <li><span class="name"><span class="ar">كابتشينو</span><span class="en">Cappuccino</span></span><b>18</b></li>
+        <li><span class="name"><span class="ar">قهوة عربية</span><span class="en">Arabic coffee</span></span><b>10</b></li>
+      </ul>
+    </section>
+
+    <section id="cold">
+      <h2><span class="ar">قهوة باردة</span><span class="en">Iced coffee</span></h2>
+      <ul>
+        <li><span class="name"><span class="ar">آيس لاتيه</span><span class="en">Iced latte</span></span><b>20</b></li>
+        <li><span class="name"><span class="ar">كولد برو</span><span class="en">Cold brew</span></span><b>20</b></li>
+        <li><span class="name"><span class="ar">آيس أمريكانو</span><span class="en">Iced americano</span></span><b>16</b></li>
+      </ul>
+    </section>
+
+    <section id="other">
+      <h2><span class="ar">مشروبات أخرى</span><span class="en">Other drinks</span></h2>
+      <ul>
+        <li><span class="name"><span class="ar">شاي كرك</span><span class="en">Karak tea</span></span><b>8</b></li>
+        <li><span class="name"><span class="ar">شوكولاتة ساخنة</span><span class="en">Hot chocolate</span></span><b>16</b></li>
+        <li><span class="name"><span class="ar">عصير طازج</span><span class="en">Fresh juice</span></span><b>18</b></li>
+      </ul>
+    </section>
+
+    <section id="sweets">
+      <h2><span class="ar">حلويات</span><span class="en">Sweets</span></h2>
+      <ul>
+        <li><span class="name"><span class="ar">كرواسون</span><span class="en">Croissant</span></span><b>12</b></li>
+        <li><span class="name"><span class="ar">كوكيز</span><span class="en">Cookie</span></span><b>8</b></li>
+        <li><span class="name"><span class="ar">تمر وقهوة</span><span class="en">Dates &amp; coffee</span></span><b>10</b></li>
+      </ul>
+    </section>
+
+    <p class="note"><span class="ar">الأسعار بالدرهم الإماراتي.</span><span class="en">Prices in AED.</span></p>
+  </main>
+
+  <footer>
+    <p>© 2026 <span class="ar">بُنّان</span><span class="en">Bunnan</span></p>
+  </footer>
+
+  <script>
+    var btn = document.getElementById('lang');
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) {}
+    function setLang(l) {
+      document.documentElement.lang = l;
+      document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+      try { localStorage.setItem('lang', l); } catch (e) {}
+    }
+    if (saved) setLang(saved);
+    btn.addEventListener('click', function () {
+      setLang(document.documentElement.lang === 'ar' ? 'en' : 'ar');
+    });
+  </script>
+</body>
+</html>
