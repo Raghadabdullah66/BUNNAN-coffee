@@ -108,9 +108,9 @@ function render() {
 
   const query = searchTerm.trim().toLocaleLowerCase();
   const items = MENU.items.filter(item => {
-    if (item.off || (active !== 'all' && item.cat !== active)) return false;
+    if (item.off || (!query && active !== 'all' && item.cat !== active)) return false;
     if (!query) return true;
-    return [item.name, ENGLISH_NAMES[item.name], item.desc, item.cat, CATEGORY_LABELS[item.cat]]
+    return [item.name, item.en, ENGLISH_NAMES[item.name], item.desc, item.cat, CATEGORY_LABELS[item.cat]]
       .filter(Boolean)
       .some(value => value.toLocaleLowerCase().includes(query));
   });
@@ -118,7 +118,7 @@ function render() {
   app.replaceChildren();
   let n = 0;
   for (const c of cats) {
-    if (active !== 'all' && c !== active) continue;
+    if (!query && active !== 'all' && c !== active) continue;
     const categoryItems = items.filter(item => item.cat === c);
     if (!categoryItems.length) continue;
     n += categoryItems.length;
@@ -169,6 +169,7 @@ const clearSearch = $('#clear-search');
 $('#search-form').addEventListener('submit', event => event.preventDefault());
 searchInput.addEventListener('input', () => {
   searchTerm = searchInput.value;
+  if (searchTerm.trim()) active = 'all';
   clearSearch.classList.toggle('visible', Boolean(searchTerm));
   render();
 });
