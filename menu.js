@@ -236,7 +236,7 @@ const MENU = {
       "desc": "قهوة باردة سلسة وجريئة بنكهة تحميص داكنة غنية تقدم على الثلج لإنعاش منعش.",
       "price": 36.00,
       "cat": "قهوة باردة",
-      "img": "images_backup/iced-black-gold.jpg",
+      "img": "images/iced-black-gold.jpg",
       "rotate": 180
     },
     {
