@@ -35,6 +35,6 @@ window.BUNNAN_SUPABASE_CONFIG = {
 
 ## النشر والاستيراد
 
-ارفعي `admin.html`, `admin.css`, `admin.js`, `supabase-config.js`, `supabase-schema.sql`, ونسخة `index.html` و`app.js` المحدّثة إلى جذر مستودع GitHub Pages. افتحي `/admin.html`، سجّلي الدخول بحساب المالك، ثم اختاري **استيراد المنيو الحالي** مرة واحدة.
+ارفعي `admin.html`, `admin.css`, `admin.js`, `supabase-config.js`, `supabase-schema.sql`, ونسخة `index.html` و`app.js` المحدّثة إلى جذر مستودع GitHub Pages. افتحي `/admin.html` وسجّلي الدخول بحساب المالك. إذا كانت القائمة ناقصة، اختاري **مزامنة الأصناف الناقصة**؛ ستُضاف الأصناف غير الموجودة بالاسم والقسم، مع إبقاء الأصناف الموجودة كما هي. يمكن إعادة المزامنة بأمان دون إنشاء نسخ مكررة.
 
 بعدها تُحفَظ إضافة الأصناف وتعديلها وحذفها مباشرة في Supabase. الصور الجديدة تُرفع إلى bucket باسم `menu-images`، ويقرأ الموقع العام الأصناف المتاحة من قاعدة البيانات.

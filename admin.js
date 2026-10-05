@@ -35,6 +35,30 @@ function normalizeRow(row) {
   };
 }
 
+function menuItemKey(item) {
+  return `${item.name.trim().normalize('NFC')}\u0000${item.cat.trim().normalize('NFC')}`;
+}
+
+function getMissingMenuEntries() {
+  const existing = new Set(items.map(menuItemKey));
+  return MENU.items
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => {
+      const key = menuItemKey(item);
+      if (existing.has(key)) return false;
+      existing.add(key);
+      return true;
+    });
+}
+
+function updateMenuSyncNotice() {
+  const missingCount = getMissingMenuEntries().length;
+  $('#seed-menu').hidden = missingCount === 0;
+  $('#seed-menu-message').textContent = missingCount
+    ? `يوجد ${missingCount} صنفًا ناقصًا من القائمة المحلية.`
+    : '';
+}
+
 function makeButton(label, className, action) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -170,12 +194,13 @@ async function loadItems() {
   if (error) {
     setStatus('تعذر تحميل المنيو. تأكدي من تطبيق supabase-schema.sql.', true);
     console.error(error);
-    return;
+    return false;
   }
   items = data.map(normalizeRow);
   renderItems();
-  $('#seed-menu').hidden = items.length > 0;
+  updateMenuSyncNotice();
   setStatus(items.length ? '' : 'قاعدة البيانات فارغة. استوردي القائمة الحالية لبدء الإدارة.');
+  return true;
 }
 
 async function deleteItem(item) {
@@ -235,9 +260,18 @@ async function saveItem(event) {
 }
 
 async function importCurrentMenu() {
-  if (!window.confirm('استيراد جميع أصناف menu.js إلى قاعدة البيانات؟')) return;
-  setStatus('جاري استيراد القائمة…');
-  const rows = MENU.items.map((item, index) => ({
+  const entries = getMissingMenuEntries();
+  if (!entries.length) {
+    updateMenuSyncNotice();
+    setStatus('لا توجد أصناف ناقصة للمزامنة.');
+    return;
+  }
+  if (!window.confirm(`إضافة ${entries.length} صنفًا ناقصًا إلى المنيو؟ لن يتم تعديل أو حذف الأصناف الموجودة.`)) return;
+
+  const button = $('#seed-menu button');
+  button.disabled = true;
+  setStatus('جاري مزامنة الأصناف الناقصة…');
+  const rows = entries.map(({ item, index }) => ({
     name: item.name,
     english_name: item.en || null,
     description: item.desc || '',
@@ -247,13 +281,17 @@ async function importCurrentMenu() {
     available: !item.off,
     sort_order: index
   }));
-  const { error } = await client.from('menu_items').insert(rows);
-  if (error) {
-    setStatus(error.message || 'تعذر استيراد القائمة.', true);
-    return;
+
+  try {
+    const { error } = await client.from('menu_items').insert(rows);
+    if (error) throw error;
+    if (await loadItems()) setStatus(`تمت مزامنة ${rows.length} صنفًا ناقصًا دون تغيير الأصناف الموجودة.`);
+  } catch (error) {
+    console.error(error);
+    setStatus(error.message || 'تعذرت مزامنة الأصناف الناقصة.', true);
+  } finally {
+    button.disabled = false;
   }
-  await loadItems();
-  setStatus('تم استيراد القائمة الحالية.');
 }
 
 if (!hasConfig) {
@@ -293,7 +331,7 @@ if (!hasConfig) {
     const item = items.find(entry => entry.id === editingId);
     if (item) deleteItem(item);
   });
-  $('#seed-menu').addEventListener('click', importCurrentMenu);
+  $('#seed-menu button').addEventListener('click', importCurrentMenu);
   $('#item-search').addEventListener('input', renderItems);
   $('#category-filter').addEventListener('change', renderItems);
   $('#item-image').addEventListener('input', () => showPreview($('#item-image').value.trim()));
