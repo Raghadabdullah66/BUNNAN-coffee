@@ -92,7 +92,7 @@ function card(i) {
       class: i.position === 'right' ? 'shift-right' : i.rotate === 180 ? 'rotate-half' : i.fit === 'cover-soft' ? 'fill-soft' : i.fit === 'cover' ? 'fill' : undefined
     }) : ''),
     el('h3', {}, i.name),
-    el('p', { class: 'card-en', lang: 'en', dir: 'ltr' }, ENGLISH_NAMES[i.name] || ''),
+    el('p', { class: 'card-en', lang: 'en', dir: 'ltr' }, i.en || ENGLISH_NAMES[i.name] || ''),
     el('p', { class: 'card-desc' }, i.desc),
     el('div', { class: 'price' }, fmt(i.price) + ' د.إ'));
 }
@@ -128,6 +128,40 @@ function render() {
 }
 
 render();
+
+async function loadSharedMenu() {
+  const config = window.BUNNAN_SUPABASE_CONFIG;
+  if (!config?.url || !config.anonKey || !window.supabase) return;
+
+  try {
+    const client = window.supabase.createClient(config.url, config.anonKey);
+    const { data, error } = await client
+      .from('menu_items')
+      .select('*')
+      .eq('available', true)
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    if (!data?.length) return;
+
+    MENU.items = data.map(row => ({
+      id: row.id,
+      name: row.name,
+      en: row.english_name || '',
+      desc: row.description || '',
+      price: Number(row.price),
+      cat: row.category,
+      img: row.image_url || '',
+      position: row.image_position || undefined,
+      fit: row.image_fit || undefined,
+      rotate: row.image_rotation ?? undefined
+    }));
+    render();
+  } catch (error) {
+    console.error('Could not load the shared Bunnan menu.', error);
+  }
+}
+
+loadSharedMenu();
 
 const searchInput = $('#menu-search');
 const clearSearch = $('#clear-search');

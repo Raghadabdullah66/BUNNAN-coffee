@@ -236,8 +236,7 @@ const MENU = {
       "desc": "قهوة باردة سلسة وجريئة بنكهة تحميص داكنة غنية تقدم على الثلج لإنعاش منعش.",
       "price": 36.00,
       "cat": "قهوة باردة",
-      "img": "images/iced-black-gold.jpg",
-      "rotate": 180
+      "img": "images/iced-black-gold.jpg"
     },
     {
       "name": "آيس في 60 تباكو",
