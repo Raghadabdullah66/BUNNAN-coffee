@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bunnan Coffee | بنان كافيه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero" id="top" aria-labelledby="hero-title">
+  <nav class="hero-bar" aria-label="التنقل الرئيسي">
+    <a class="brand" href="#top" aria-label="Bunnan Coffee، الرئيسية">
+      <span class="brand-word" lang="en" dir="ltr">BUNNAN</span>
+      <span class="brand-mark"><img src="images/logo.png" alt=""></span>
+    </a>
+    <div class="hero-actions">
+      <button id="menu-trigger" class="icon-button" type="button" aria-label="انتقل إلى المنيو" title="انتقل إلى المنيو">
+        <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <button id="search-trigger" class="icon-button" type="button" aria-label="ابحث في المنيو" title="ابحث في المنيو">
+        <span class="search-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="hero-copy">
+    <h1 id="hero-title">أهلاً بك في كوفي بنان</h1>
+    <p class="hero-description">قهوة مختصة</p>
+    <a class="hero-cta" href="#menu-tools" lang="en" dir="ltr">Explore Menu</a>
+  </div>
+</header>
+<section class="menu-tools" id="menu-tools" aria-label="البحث في المنيو">
+  <div class="tools-inner">
+    <form id="search-form" class="search-field" role="search">
+      <span class="search-icon" aria-hidden="true"></span>
+      <input id="menu-search" type="search" placeholder="ابحث عن مشروب أو صنف" autocomplete="off" aria-label="ابحث عن مشروب أو صنف">
+      <button class="clear-search" id="clear-search" type="button" aria-label="مسح البحث" title="مسح البحث">×</button>
+    </form>
+    <nav id="chips" aria-label="تصنيفات المنيو"></nav>
+  </div>
+</section>
+<main id="menu">
+  <div id="app"></div>
+</main>
+<footer class="site-footer">
+  <p class="footer-title">شاركنا لحظتك مع بنان</p>
+  <a class="footer-social" href="https://www.instagram.com/bunnan.ae/" target="_blank" rel="noreferrer">@bunnan.ae</a>
+  <p class="footer-location">بنان كافيه، العامرة، العين</p>
+</footer>
+<script src="menu.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
