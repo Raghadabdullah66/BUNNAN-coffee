@@ -108,7 +108,7 @@ function render() {
 
   const query = searchTerm.trim().toLocaleLowerCase();
   const items = MENU.items.filter(item => {
-    if (item.off || (!query && active !== 'all' && item.cat !== active)) return false;
+    if (item.off || (active !== 'all' && item.cat !== active)) return false;
     if (!query) return true;
     return [item.name, item.en, ENGLISH_NAMES[item.name], item.desc, item.cat, CATEGORY_LABELS[item.cat]]
       .filter(Boolean)
@@ -118,7 +118,7 @@ function render() {
   app.replaceChildren();
   let n = 0;
   for (const c of cats) {
-    if (!query && active !== 'all' && c !== active) continue;
+    if (active !== 'all' && c !== active) continue;
     const categoryItems = items.filter(item => item.cat === c);
     if (!categoryItems.length) continue;
     n += categoryItems.length;
