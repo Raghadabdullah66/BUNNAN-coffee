@@ -98,7 +98,7 @@ function card(i) {
 }
 
 function render() {
-  const orderedCats = ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات ساخنة', 'قهوة باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats];
+  const orderedCats = ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات ساخنة', 'مشروبات مثلجة', 'قهوة باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats];
   const cats = [...new Set(orderedCats)].filter(category => MENU.items.some(item => item.cat === category && !item.off));
   if (active !== 'all' && !cats.includes(active)) active = 'all';
 
