@@ -275,10 +275,8 @@ if (!hasConfig) {
       setStatus('تعذر تسجيل الدخول. تحققي من بيانات الحساب.', true);
       return;
     }
-    $('#login-panel').hidden = true;
-    $('#manager').hidden = false;
+    setSignedIn(data.session);
     setStatus(`مرحبًا ${data.user.email}`);
-    await loadItems();
   });
 
   $('#sign-out').addEventListener('click', async () => {
@@ -304,11 +302,12 @@ if (!hasConfig) {
     if (selectedImage) showPreview(URL.createObjectURL(selectedImage));
   });
 
-  client.auth.getSession().then(({ data }) => {
-    if (data.session) {
-      $('#login-panel').hidden = true;
-      $('#manager').hidden = false;
-      loadItems();
+  client.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      setStatus('تعذر استعادة الجلسة. سجّلي الدخول من جديد.', true);
+      setSignedIn(null);
+      return;
     }
+    setSignedIn(data.session);
   });
 }
