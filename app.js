@@ -32,7 +32,7 @@ const ENGLISH_NAMES = {
   'أمريكانو ساخن': 'Hot Americano',
   'لاتيه ساخن': 'Hot Latte',
   'كورتادو': 'Cortado',
-  'كورتادو بارد': 'Cold Cortado',
+  'كورتادو بارد': 'Iced Spanish Cortado',
   'كورتادو إسباني ساخن': 'Hot Spanish Cortado',
   'فلات وايت': 'Flat White',
   'آيس في 60 جوز الهند': 'Iced Coconut V60',
@@ -275,7 +275,7 @@ async function loadSharedMenu() {
       id: row.id,
       name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
       en: row.name === 'كورتادو مثلج'
-        ? 'Cold Cortado'
+        ? 'Iced Spanish Cortado'
         : row.english_name
           ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
         : '',
