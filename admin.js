@@ -308,7 +308,6 @@ async function deleteCategory(category) {
     if (lookupError) throw lookupError;
     if (linkedItems?.length) {
       setStatus('لا يمكن حذف القسم لأنه يحتوي على أصناف. انقليها إلى قسم آخر أو احذفيها أولًا.', true);
-      await loadItems();
       return;
     }
 
