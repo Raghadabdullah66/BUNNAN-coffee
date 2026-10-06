@@ -35,6 +35,15 @@ button{cursor:pointer}
 .panel-header h2,.editor-header h2{margin:0;font-size:17px;font-weight:700}
 .item-count{display:inline-grid;min-width:25px;height:25px;margin-inline-start:6px;place-items:center;border-radius:50%;background:#edf0eb;color:var(--green);font-size:12px}
 .inventory-tools{display:grid;grid-template-columns:1fr;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.category-manager{padding:12px 14px;border-bottom:1px solid var(--line)}
+.category-manager summary{font-size:13px;font-weight:700;cursor:pointer}
+.category-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-top:12px}
+.category-form .field{gap:4px}
+.category-form .field label,.category-form .field span{font-size:12px;font-weight:600}
+.category-form input{min-height:38px;padding:7px 9px;border:1px solid #cfd5ce;border-radius:4px;background:#fff;font-size:13px}
+.category-form .button{min-height:38px}
+.category-list{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:10px 0 0;padding:0}
+.category-list li{padding:5px 8px;border:1px solid var(--line);border-radius:3px;background:#fff;font-size:11px}
 .inventory-list{max-height:calc(100vh - 245px);overflow:auto}
 .item-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #edf0ec}
 .item-thumb{width:52px;height:60px;border-radius:3px;background:#edf0eb;object-fit:cover}
@@ -76,5 +85,6 @@ button{cursor:pointer}
 	.field.full{grid-column:auto}
 	.image-controls{grid-template-columns:1fr}
 	.file-picker{justify-self:start}
+	.category-form{grid-template-columns:1fr}
 	.row-actions .button{padding:4px 7px}
 }

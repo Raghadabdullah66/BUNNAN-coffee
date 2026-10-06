@@ -83,6 +83,10 @@ const ENGLISH_CATEGORIES = {
   'مياه': 'Water',
   'الحليب': 'Milk'
 };
+let DATABASE_CATEGORY_ENGLISH = {};
+const categoryLabel = category => language === 'ar'
+  ? CATEGORY_LABELS[category] || category
+  : DATABASE_CATEGORY_ENGLISH[category] || ENGLISH_CATEGORIES[category] || category;
 const ENGLISH_DESCRIPTIONS = {
   'لاتيه ماتشا جوز الهند': 'Smooth, creamy matcha latte blended with rich coconut milk and topped with velvety foam.',
   'كلاود كوكنت ماتشا': 'Silky coconut matcha topped with a light cloud of whipped foam.',
@@ -212,19 +216,19 @@ function card(i) {
 }
 
 function render() {
-  const orderedCats = ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats];
+  const orderedCats = ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats, ...Object.keys(DATABASE_CATEGORY_ENGLISH)];
   const cats = [...new Set(orderedCats)].filter(category => MENU.items.some(item => item.cat === category && !item.off));
   if (active !== 'all' && !cats.includes(active)) active = 'all';
 
   $('#chips').replaceChildren(...['all', ...cats].map(c =>
     el('button', { class: 'chip' + (c === active ? ' on' : ''), onclick: () => { active = c; render(); } },
-      c === 'all' ? (language === 'ar' ? 'الكل' : 'All') : language === 'ar' ? CATEGORY_LABELS[c] || c : ENGLISH_CATEGORIES[c] || c)));
+      c === 'all' ? (language === 'ar' ? 'الكل' : 'All') : categoryLabel(c))));
 
   const query = searchTerm.trim().toLocaleLowerCase();
   const items = MENU.items.filter(item => {
     if (item.off || (active !== 'all' && item.cat !== active)) return false;
     if (!query) return true;
-    return [item.name, item.en, ENGLISH_NAMES[item.name], item.desc, ENGLISH_DESCRIPTIONS[item.name], item.cat, CATEGORY_LABELS[item.cat], ENGLISH_CATEGORIES[item.cat]]
+    return [item.name, item.en, ENGLISH_NAMES[item.name], item.desc, ENGLISH_DESCRIPTIONS[item.name], item.cat, categoryLabel(item.cat)]
       .filter(Boolean)
       .some(value => value.toLocaleLowerCase().includes(query));
   });
@@ -236,7 +240,7 @@ function render() {
     const categoryItems = items.filter(item => item.cat === c);
     if (!categoryItems.length) continue;
     n += categoryItems.length;
-    app.append(el('h2', {}, language === 'ar' ? CATEGORY_LABELS[c] || c : ENGLISH_CATEGORIES[c] || c), el('div', { class: 'grid' }, categoryItems.map(card)));
+    app.append(el('h2', {}, categoryLabel(c)), el('div', { class: 'grid' }, categoryItems.map(card)));
   }
   if (!n) app.append(el('p', { class: 'empty' }, language === 'ar'
     ? searchTerm ? 'ما لقينا أصناف تطابق بحثك.' : 'ما فيه أصناف في هذا القسم.'
@@ -270,6 +274,16 @@ async function loadSharedMenu() {
       .order('sort_order', { ascending: true });
     if (error) throw error;
     if (!data?.length) return;
+
+    const { data: categoryData, error: categoryError } = await client
+      .from('menu_categories')
+      .select('name, english_name, sort_order')
+      .order('sort_order', { ascending: true });
+    if (categoryError) {
+      console.error('Could not load translated menu category names.', categoryError);
+    } else {
+      DATABASE_CATEGORY_ENGLISH = Object.fromEntries(categoryData.map(category => [category.name, category.english_name]));
+    }
 
     MENU.items = data.map(row => ({
       id: row.id,

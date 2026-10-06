@@ -1,0 +1,38 @@
+create table if not exists public.menu_categories (
+  name text primary key,
+  english_name text not null,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table public.menu_categories enable row level security;
+
+grant select on public.menu_categories to anon, authenticated;
+grant insert on public.menu_categories to authenticated;
+
+drop policy if exists "Anyone can read menu categories" on public.menu_categories;
+create policy "Anyone can read menu categories"
+on public.menu_categories for select to anon, authenticated
+using (true);
+
+drop policy if exists "Admins can add menu categories" on public.menu_categories;
+create policy "Admins can add menu categories"
+on public.menu_categories for insert to authenticated
+with check (exists (select 1 from public.menu_admins where user_id = auth.uid()));
+
+insert into public.menu_categories (name, english_name, sort_order)
+values
+  ('مشروبات الماتشا', 'Matcha Drinks', 1),
+  ('الآساي', 'Acai', 2),
+  ('كرواسون', 'Croissants', 3),
+  ('قهوة ساخنة', 'Hot Drinks', 4),
+  ('مشروبات ساخنة', 'Hot Drinks', 5),
+  ('مشروبات باردة', 'Cold Drinks', 6),
+  ('قهوة باردة', 'Cold Drinks', 7),
+  ('مشروبات مثلجة', 'Cold Drinks', 8),
+  ('مشروبات الموهيتو', 'Mojitos', 9),
+  ('حلويات', 'Desserts', 10),
+  ('مياه', 'Water', 11),
+  ('الحليب', 'Milk', 12)
+on conflict (name) do update
+set english_name = excluded.english_name;

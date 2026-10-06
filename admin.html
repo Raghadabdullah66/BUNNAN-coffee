@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="admin.css?v=category-management-20261006">
 </head>
 <body>
 <header class="admin-header">
@@ -56,6 +56,21 @@
           <h2 id="inventory-title">الأصناف <span class="item-count" id="item-count">0</span></h2>
           <button class="button button-primary" id="new-item" type="button">إضافة صنف</button>
         </header>
+        <details class="category-manager">
+          <summary>إدارة الأقسام</summary>
+          <form class="category-form" id="category-form">
+            <label class="field">
+              <span>اسم القسم بالعربي</span>
+              <input id="category-name" type="text" maxlength="80" required>
+            </label>
+            <label class="field">
+              <span>اسم القسم بالإنجليزي</span>
+              <input id="category-en" type="text" lang="en" dir="ltr" maxlength="80" required>
+            </label>
+            <button class="button button-primary" type="submit">إضافة القسم</button>
+          </form>
+          <ul class="category-list" id="category-list" aria-label="الأقسام الحالية"></ul>
+        </details>
         <div class="inventory-tools">
           <input class="field-control" id="item-search" type="search" placeholder="ابحث عن صنف" aria-label="ابحث عن صنف">
           <select class="field-control" id="category-filter" aria-label="تصفية حسب القسم"></select>
@@ -122,6 +137,6 @@
 <script src="menu.js?v=second-menu-items-20261005"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin.js"></script>
+<script src="admin.js?v=category-management-20261006"></script>
 </body>
 </html>

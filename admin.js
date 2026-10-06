@@ -3,6 +3,7 @@ const config = window.BUNNAN_SUPABASE_CONFIG || {};
 const hasConfig = Boolean(config.url && config.anonKey && window.supabase);
 const OWNER_AUTH_EMAIL = 'bunnan-admin@bunnan.invalid';
 let items = [];
+let categories = [];
 let editingId = null;
 let selectedImage = null;
 let previewUrl = '';
@@ -24,11 +25,15 @@ function setSignedIn(session) {
 function normalizeRow(row) {
   return {
     id: row.id,
-    name: row.name,
-    en: row.english_name || '',
-    desc: row.description || '',
+    name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
+    en: row.name === 'كورتادو مثلج'
+      ? 'Cold Cortado'
+      : row.english_name
+        ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
+      : '',
+    desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
     price: Number(row.price),
-    cat: row.category,
+    cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
     img: row.image_url || '',
     off: !row.available,
     sort_order: row.sort_order
@@ -72,13 +77,23 @@ function renderCategories() {
   const categoryFilter = $('#category-filter');
   const categorySelect = $('#item-category');
   const previous = categoryFilter.value;
+  const names = [...new Set([...MENU.cats, ...items.map(item => item.cat), ...categories.map(category => category.name)])];
   categoryFilter.replaceChildren(new Option('كل الأقسام', 'all'));
   categorySelect.replaceChildren();
-  MENU.cats.forEach(category => {
+  names.forEach(category => {
     categoryFilter.add(new Option(category, category));
     categorySelect.add(new Option(category, category));
   });
-  categoryFilter.value = MENU.cats.includes(previous) ? previous : 'all';
+  categoryFilter.value = names.includes(previous) ? previous : 'all';
+}
+
+function renderCategoryList() {
+  const list = $('#category-list');
+  list.replaceChildren(...categories.map(category => {
+    const entry = document.createElement('li');
+    entry.textContent = `${category.name} · ${category.english_name}`;
+    return entry;
+  }));
 }
 
 function renderItems() {
@@ -197,10 +212,64 @@ async function loadItems() {
     return false;
   }
   items = data.map(normalizeRow);
+  const categoriesLoaded = await loadCategories();
   renderItems();
   updateMenuSyncNotice();
-  setStatus(items.length ? '' : 'قاعدة البيانات فارغة. استوردي القائمة الحالية لبدء الإدارة.');
+  if (categoriesLoaded) {
+    setStatus(items.length ? '' : 'قاعدة البيانات فارغة. استوردي القائمة الحالية لبدء الإدارة.');
+  }
   return true;
+}
+
+async function loadCategories() {
+  const { data, error } = await client.from('menu_categories').select('*').order('sort_order');
+  if (error) {
+    console.error('Could not load menu categories.', error);
+    categories = [];
+    renderCategories();
+    renderCategoryList();
+    setStatus('تعذر تحميل الأقسام. شغّلي تحديث supabase-categories-migration.sql في Supabase.', true);
+    return false;
+  }
+  categories = data;
+  renderCategories();
+  renderCategoryList();
+  return true;
+}
+
+async function addCategory(event) {
+  event.preventDefault();
+  const name = $('#category-name').value.trim().normalize('NFC');
+  const englishName = $('#category-en').value.trim();
+  if (!name || !englishName) {
+    setStatus('أدخلي اسم القسم بالعربي والإنجليزي.', true);
+    return;
+  }
+
+  const duplicate = categories.some(category =>
+    category.name.normalize('NFC') === name ||
+    category.english_name.trim().toLocaleLowerCase() === englishName.toLocaleLowerCase());
+  if (duplicate) {
+    setStatus('هذا القسم أو اسمه الإنجليزي موجود بالفعل.', true);
+    return;
+  }
+
+  setStatus('جاري إضافة القسم…');
+  try {
+    const { error } = await client.from('menu_categories').insert({
+      name,
+      english_name: englishName,
+      sort_order: categories.length
+    });
+    if (error) throw error;
+
+    $('#category-form').reset();
+    if (!(await loadCategories())) return;
+    setStatus(`تمت إضافة قسم «${name}».`);
+  } catch (error) {
+    console.error('Could not add menu category.', error);
+    setStatus(error.code === '23505' ? 'هذا القسم موجود بالفعل.' : error.message || 'تعذرت إضافة القسم.', true);
+  }
 }
 
 async function deleteItem(item) {
@@ -325,6 +394,7 @@ if (!hasConfig) {
   });
 
   $('#menu-form').addEventListener('submit', event => saveItem(event));
+  $('#category-form').addEventListener('submit', event => addCategory(event));
   $('#new-item').addEventListener('click', () => fillForm());
   $('#cancel-edit').addEventListener('click', () => fillForm());
   $('#delete-current').addEventListener('click', () => {
