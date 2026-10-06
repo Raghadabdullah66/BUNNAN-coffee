@@ -284,7 +284,7 @@ async function loadSharedMenu() {
       cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
       img: row.image_url || '',
       position: row.image_position || undefined,
-      fit: ['هوت V60 جوز الهند', 'هوت V60 كولومبيا', 'هوت V60 إثيوبيا', 'آيس بلاك جولد', 'آيس في 60 تباكو', 'بلاك باك'].includes(row.name)
+      fit: ['هوت V60 جوز الهند', 'هوت V60 كولومبيا', 'هوت V60 إثيوبيا', 'في 60 إثيوبيا', 'في 60 كولومبيا', 'آيس بلاك جولد', 'آيس في 60 تباكو', 'بلاك باك'].includes(row.name)
         ? 'contain'
         : row.image_fit || undefined,
       rotate: row.image_rotation ?? undefined
