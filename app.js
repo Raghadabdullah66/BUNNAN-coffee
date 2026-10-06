@@ -204,7 +204,7 @@ function card(i) {
       src: i.img,
       alt: name,
       loading: 'lazy',
-      class: i.position === 'right' ? 'shift-right' : i.rotate === 180 ? 'rotate-half' : i.fit === 'cover-soft' ? 'fill-soft' : i.fit === 'cover' ? 'fill' : undefined
+      class: i.position === 'right' ? 'shift-right' : i.rotate === 180 ? 'rotate-half' : i.fit === 'contain' ? 'fit-contain' : i.fit === 'cover-soft' ? 'fill-soft' : i.fit === 'cover' ? 'fill' : undefined
     }) : ''),
     el('h3', { lang: language }, name),
     el('p', { class: 'card-desc', lang: language }, description),
@@ -284,7 +284,7 @@ async function loadSharedMenu() {
       cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
       img: row.image_url || '',
       position: row.image_position || undefined,
-      fit: row.image_fit || undefined,
+      fit: ['آيس بلاك جولد', 'آيس في 60 تباكو'].includes(row.name) ? 'contain' : row.image_fit || undefined,
       rotate: row.image_rotation ?? undefined
     }));
     moveMenuItemAfter('آيس في 60 جوز الهند', 'أمريكانو');

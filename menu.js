@@ -245,14 +245,16 @@ const MENU = {
       "desc": "قهوة باردة سلسة وجريئة بنكهة تحميص داكنة غنية تقدم على الثلج لإنعاش منعش.",
       "price": 32,
       "cat": "مشروبات باردة",
-      "img": "images/iced-black-gold.jpg"
+      "img": "images/iced-black-gold.jpg",
+      "fit": "contain"
     },
     {
       "name": "آيس في 60 تباكو",
       "desc": "قهوة باردة وسلسة ومنعشة محضرة بطريقة V60 بالتنقيط مع نكهة مدخنة خفيفة تقدم مع الثلج.",
       "price": 35,
       "cat": "مشروبات باردة",
-      "img": "images/ايس في v60تب acco.jpeg"
+      "img": "images/ايس في v60تب acco.jpeg",
+      "fit": "contain"
     },
     {
       "name": "بلاك باك",
