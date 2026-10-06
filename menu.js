@@ -309,7 +309,7 @@ const MENU = {
       "desc": "إسبريسو مع حليب بارد كريمي على الثلج، ناعم ومتوازن وكلاسيكي.",
       "price": 20,
       "cat": "مشروبات باردة",
-      "img": "images/iced-latte-ref.jpg"
+      "img": "https://pwfhyymlhvdszkzodctx.supabase.co/storage/v1/object/public/menu-images/1791278148562-27a24ab4-f585-4c64-8653-64e9e08e3b03.jpg"
     },
     {
       "name": "كورتادو",
