@@ -29,6 +29,8 @@ function normalizeRow(row) {
     name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
     en: row.name === 'كورتادو مثلج'
       ? 'Cold Cortado'
+      : row.name === 'كورتادو إسباني مثلج'
+        ? 'Iced Spanish Cortado'
       : row.english_name
         ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
       : '',
