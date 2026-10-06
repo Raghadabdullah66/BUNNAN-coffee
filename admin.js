@@ -2,6 +2,7 @@ const $ = selector => document.querySelector(selector);
 const config = window.BUNNAN_SUPABASE_CONFIG || {};
 const hasConfig = Boolean(config.url && config.anonKey && window.supabase);
 const OWNER_AUTH_EMAIL = 'bunnan-admin@bunnan.invalid';
+const BUILT_IN_CATEGORIES = new Set([...MENU.cats, 'مشروبات ساخنة', 'قهوة باردة', 'مشروبات مثلجة']);
 let items = [];
 let categories = [];
 let editingId = null;
@@ -33,6 +34,7 @@ function normalizeRow(row) {
       : '',
     desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
     price: Number(row.price),
+    rawCategory: row.category,
     cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
     img: row.image_url || '',
     off: !row.available,
@@ -91,7 +93,24 @@ function renderCategoryList() {
   const list = $('#category-list');
   list.replaceChildren(...categories.map(category => {
     const entry = document.createElement('li');
-    entry.textContent = `${category.name} · ${category.english_name}`;
+    const label = document.createElement('span');
+    label.textContent = `${category.name} · ${category.english_name}`;
+    entry.append(label);
+
+    if (BUILT_IN_CATEGORIES.has(category.name)) {
+      const marker = document.createElement('span');
+      marker.className = 'category-default-label';
+      marker.textContent = 'أساسي';
+      entry.append(marker);
+      return entry;
+    }
+
+    const hasItems = items.some(item =>
+      item.rawCategory === category.name || item.cat === category.name);
+    const deleteButton = makeButton('حذف', 'button-danger category-delete', () => deleteCategory(category));
+    deleteButton.disabled = hasItems;
+    deleteButton.title = hasItems ? 'انقلي أصناف هذا القسم أو احذفيها أولًا.' : `حذف قسم ${category.name}`;
+    entry.append(deleteButton);
     return entry;
   }));
 }
@@ -269,6 +288,45 @@ async function addCategory(event) {
   } catch (error) {
     console.error('Could not add menu category.', error);
     setStatus(error.code === '23505' ? 'هذا القسم موجود بالفعل.' : error.message || 'تعذرت إضافة القسم.', true);
+  }
+}
+
+async function deleteCategory(category) {
+  if (BUILT_IN_CATEGORIES.has(category.name)) {
+    setStatus('لا يمكن حذف الأقسام الأساسية.', true);
+    return;
+  }
+
+  if (!window.confirm(`حذف القسم «${category.name}»؟ لا يمكن التراجع عن هذا الإجراء.`)) return;
+  setStatus('جاري حذف القسم…');
+  try {
+    const { data: linkedItems, error: lookupError } = await client
+      .from('menu_items')
+      .select('id')
+      .eq('category', category.name)
+      .limit(1);
+    if (lookupError) throw lookupError;
+    if (linkedItems?.length) {
+      setStatus('لا يمكن حذف القسم لأنه يحتوي على أصناف. انقليها إلى قسم آخر أو احذفيها أولًا.', true);
+      await loadItems();
+      return;
+    }
+
+    const { data: deleted, error } = await client
+      .from('menu_categories')
+      .delete()
+      .eq('name', category.name)
+      .select('name');
+    if (error) throw error;
+    if (!deleted?.length) throw new Error('لم يتم حذف القسم. تحققي من صلاحيات الحساب.');
+
+    categories = categories.filter(entry => entry.name !== category.name);
+    renderCategories();
+    renderCategoryList();
+    setStatus(`تم حذف قسم «${category.name}».`);
+  } catch (error) {
+    console.error('Could not delete menu category.', error);
+    setStatus(error.message || 'تعذر حذف القسم.', true);
   }
 }
 

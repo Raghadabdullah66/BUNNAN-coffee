@@ -8,7 +8,7 @@ create table if not exists public.menu_categories (
 alter table public.menu_categories enable row level security;
 
 grant select on public.menu_categories to anon, authenticated;
-grant insert on public.menu_categories to authenticated;
+grant insert, delete on public.menu_categories to authenticated;
 
 drop policy if exists "Anyone can read menu categories" on public.menu_categories;
 create policy "Anyone can read menu categories"
@@ -19,6 +19,11 @@ drop policy if exists "Admins can add menu categories" on public.menu_categories
 create policy "Admins can add menu categories"
 on public.menu_categories for insert to authenticated
 with check (exists (select 1 from public.menu_admins where user_id = auth.uid()));
+
+drop policy if exists "Admins can delete menu categories" on public.menu_categories;
+create policy "Admins can delete menu categories"
+on public.menu_categories for delete to authenticated
+using (exists (select 1 from public.menu_admins where user_id = auth.uid()));
 
 insert into public.menu_categories (name, english_name, sort_order)
 values
