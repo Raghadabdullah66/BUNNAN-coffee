@@ -166,7 +166,8 @@ const MENU = {
       "desc": "قهوة مقطرة، حليب جوز الهند، عطرية، ناعمة، نوتات استوائية، متوازنة، منعشة، كافيين.",
       "price": 33,
       "cat": "قهوة ساخنة",
-      "img": "images/hot-v60-coconut.jpg"
+      "img": "images/v60-shared-ref.jpg",
+      "fit": "contain"
     },
     {
       "name": "لاتيه إسباني ساخن",
@@ -196,14 +197,16 @@ const MENU = {
       "desc": "قهوة مقطرة من أصل سينجل، حبوب كولومبية، حموضة مشركة، نوتات فاكهية، ناعمة، كافيين.",
       "price": 27,
       "cat": "قهوة ساخنة",
-      "img": "images/hot-v60-colombia.jpg"
+      "img": "images/v60-shared-ref.jpg",
+      "fit": "contain"
     },
     {
       "name": "هوت V60 إثيوبيا",
       "desc": "قهوة مقطرة من أصل سينجل، حبوب إثيوبية، نوتات زهرية، حموضة حمضيات، ناعمة، كافيين.",
       "price": 25,
       "cat": "قهوة ساخنة",
-      "img": "images/hot-v60-ethiopia.jpg"
+      "img": "images/v60-shared-ref.jpg",
+      "fit": "contain"
     },
     {
       "name": "أمريكانو ساخن",
@@ -245,7 +248,7 @@ const MENU = {
       "desc": "قهوة باردة سلسة وجريئة بنكهة تحميص داكنة غنية تقدم على الثلج لإنعاش منعش.",
       "price": 32,
       "cat": "مشروبات باردة",
-      "img": "images/iced-black-gold.jpg",
+      "img": "images/v60-shared-ref.jpg",
       "fit": "contain"
     },
     {
@@ -253,7 +256,7 @@ const MENU = {
       "desc": "قهوة باردة وسلسة ومنعشة محضرة بطريقة V60 بالتنقيط مع نكهة مدخنة خفيفة تقدم مع الثلج.",
       "price": 35,
       "cat": "مشروبات باردة",
-      "img": "images/ايس في v60تب acco.jpeg",
+      "img": "images/v60-shared-ref.jpg",
       "fit": "contain"
     },
     {
@@ -261,7 +264,8 @@ const MENU = {
       "desc": "قهوة باردة جريئة بنكهة غنية تقدم مع الثلج لإنعاش منعش.",
       "price": 34,
       "cat": "مشروبات باردة",
-      "img": "images/بلاك باك.jpeg"
+      "img": "images/v60-shared-ref.jpg",
+      "fit": "contain"
     },
     {
       "name": "في 60 كولومبيا",
