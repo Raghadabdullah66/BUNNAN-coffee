@@ -11,12 +11,13 @@
 </head>
 <body>
 <header class="hero" id="top" aria-labelledby="hero-title">
-  <nav class="hero-bar" aria-label="التنقل الرئيسي">
-    <a class="brand" href="#top" aria-label="Bunnan Coffee، الرئيسية">
+  <nav class="hero-bar" aria-label="التنقل الرئيسي" data-ar-label="التنقل الرئيسي" data-en-label="Main navigation">
+    <a class="brand" href="#top" aria-label="Bunnan Coffee، الرئيسية" data-ar-label="Bunnan Coffee، الرئيسية" data-en-label="Bunnan Coffee, home">
       <span class="brand-word" lang="en" dir="ltr">BUNNAN</span>
-      <span class="brand-mark"><img src="images/logo.png" alt=""></span>
+      <span class="brand-mark"><img src="images/logo.png" alt="Bunnan Coffee logo"></span>
     </a>
     <div class="hero-actions">
+      <button id="language-toggle" class="language-button" type="button" aria-label="Switch language" title="Switch language">English</button>
       <button id="menu-trigger" class="icon-button" type="button" aria-label="انتقل إلى المنيو" title="انتقل إلى المنيو">
         <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
       </button>
@@ -26,32 +27,47 @@
     </div>
   </nav>
   <div class="hero-copy">
-    <h1 id="hero-title">أهلاً بك في كوفي بنان</h1>
-    <p class="hero-description">قهوة مختصة</p>
-    <a class="hero-cta" href="#menu-tools" lang="en" dir="ltr">Explore Menu</a>
+    <h1 id="hero-title" data-ar="أهلاً بك في كوفي بنان" data-en="Welcome to Bunnan Coffee">أهلاً بك في كوفي بنان</h1>
+    <p class="hero-description" data-ar="قهوة مختصة" data-en="Specialty coffee">قهوة مختصة</p>
+    <a class="hero-cta" href="#menu-tools" lang="en" dir="ltr" data-ar="استكشف المنيو" data-en="Explore Menu">استكشف المنيو</a>
   </div>
 </header>
-<section class="menu-tools" id="menu-tools" aria-label="البحث في المنيو">
+<section class="menu-tools" id="menu-tools" aria-label="البحث في المنيو" data-ar-label="البحث في المنيو" data-en-label="Menu search">
   <div class="tools-inner">
     <form id="search-form" class="search-field" role="search">
       <span class="search-icon" aria-hidden="true"></span>
-      <input id="menu-search" type="search" placeholder="ابحث عن مشروب أو صنف" autocomplete="off" aria-label="ابحث عن مشروب أو صنف">
-      <button class="clear-search" id="clear-search" type="button" aria-label="مسح البحث" title="مسح البحث">×</button>
+      <input id="menu-search" type="search" placeholder="ابحث عن مشروب أو صنف" data-ar-placeholder="ابحث عن مشروب أو صنف" data-en-placeholder="Search drinks or items" autocomplete="off" aria-label="ابحث عن مشروب أو صنف" data-ar-label="ابحث عن مشروب أو صنف" data-en-label="Search drinks or items">
+      <button class="clear-search" id="clear-search" type="button" aria-label="مسح البحث" title="مسح البحث" data-ar-label="مسح البحث" data-en-label="Clear search" data-ar-title="مسح البحث" data-en-title="Clear search">×</button>
     </form>
-    <nav id="chips" aria-label="تصنيفات المنيو"></nav>
+    <nav id="chips" aria-label="تصنيفات المنيو" data-ar-label="تصنيفات المنيو" data-en-label="Menu categories"></nav>
   </div>
 </section>
 <main id="menu">
   <div id="app"></div>
 </main>
 <footer class="site-footer">
-  <p class="footer-title">شاركنا لحظتك مع بنان</p>
-  <a class="footer-social" href="https://www.instagram.com/bunnan.ae/" target="_blank" rel="noreferrer">@bunnan.ae</a>
-  <p class="footer-location">بنان كافيه، العامرة، العين</p>
+  <p class="footer-title" data-ar="شاركنا لحظتك مع بنان" data-en="Share your moment with Bunnan">شاركنا لحظتك مع بنان</p>
+  <a class="footer-social" href="https://www.instagram.com/bunnan.ae/" target="_blank" rel="noreferrer">
+    @bunnan.ae
+    <svg class="instagram-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+      <circle cx="12" cy="12" r="4"></circle>
+      <circle class="instagram-icon-dot" cx="17.5" cy="6.5" r="1"></circle>
+    </svg>
+  </a>
+  <br>
+  <a class="footer-location" href="https://maps.app.goo.gl/QiHh9ZCyEfbAZWTt5?g_st=ic" target="_blank" rel="noopener noreferrer">
+    <svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+      <circle cx="12" cy="10" r="2.5"></circle>
+    </svg>
+    <span data-ar="بنان كافيه، العين، العامرة" data-en="Bunnan Coffee, Al Ain, Al Amrah">بنان كافيه، العين، العامرة</span>
+  </a>
+  <p class="footer-credit"><span data-ar="صنع من قبل" data-en="Made by">صنع من قبل</span> <a href="https://www.instagram.com/web.line3/" target="_blank" rel="noreferrer">web.line3</a></p>
 </footer>
-<script src="menu.js?v=second-menu-items-20261005"></script>
+<script src="menu.js?v=strawberry-chocolate-20261006"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js?v=second-menu-items-20261005"></script>
+<script src="app.js?v=strawberry-chocolate-20261006"></script>
 </body>
 </html>
