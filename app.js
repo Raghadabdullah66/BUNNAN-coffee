@@ -7,7 +7,7 @@ let DATABASE_CATEGORIES = [];
 const ENGLISH_NAMES = {
   'لاتيه ماتشا جوز الهند': 'Coconut Matcha Latte',
   'كلاود ماتشا جوز الهند': 'Cloud Coconut Matcha',
-  'لاتيه ماتشا ساخن': 'Hot Matcha Latte',
+  'لاتيه ماتشا': 'Matcha Latte',
   'ماتشا لاتيه': 'Matcha Latte',
   'لاتيه الماتشا بالقهوة': 'Coffee Matcha Latte',
   'كريم ماتشا': 'Matcha Cream',
@@ -22,20 +22,21 @@ const ENGLISH_NAMES = {
   'كرواسون شوكولاتة': 'Chocolate Croissant',
   'إسبريسو سينجل': 'Single Espresso',
   'إسبريسو دوبل': 'Double Espresso',
-  'ماكياتو ساخن': 'Hot Macchiato',
-  'سبانش بيكولو ساخن': 'Hot Spanish Piccolo',
-  'بيكولو ساخن': 'Hot Piccolo',
-  'V60 جوز الهند الساخن': 'Hot V60 Coconut',
-  'لاتيه إسباني ساخن': 'Hot Spanish Latte',
+  'ماكياتو': 'Macchiato',
+  'سبانش بيكولو': 'Spanish Piccolo',
+  'بيكولو': 'Piccolo',
+  'V60 جوز الهند': 'V60 Coconut',
+  'سبانش لاتيه': 'Spanish Latte',
   'كابتشينو': 'Cappuccino',
-  'V60 كولومبيا الساخن': 'Hot V60 Colombia',
-  'V60 إثيوبيا الساخن': 'Hot V60 Ethiopia',
-  'أمريكانو ساخن': 'Hot Americano',
-  'لاتيه ساخن': 'Hot Latte',
+  'V60 كولومبي': 'V60 Colombia',
+  'V60 إثيوبيا': 'V60 Ethiopia',
+  'أمريكانو': 'Americano',
+  'لاتيه': 'Latte',
   'كورتادو': 'Cortado',
   'كورتادو إسباني مثلج': 'Iced Spanish Cortado',
+  'سبانش كورتادو مثلج': 'Iced Spanish Cortado',
   'كورتادو بارد': 'Iced Spanish Cortado',
-  'كورتادو إسباني ساخن': 'Hot Spanish Cortado',
+  'سبانش كورتادو': 'Spanish Cortado',
   'فلات وايت': 'Flat White',
   'V60 جوز الهند المثلج': 'Iced Coconut V60',
   'V60 بلاك جولد المثلج': 'V60 BLACK GOLD',
@@ -93,7 +94,7 @@ const categoryLabel = category => language === 'ar'
 const ENGLISH_DESCRIPTIONS = {
   'لاتيه ماتشا جوز الهند': 'Smooth, creamy matcha latte blended with rich coconut milk and topped with velvety foam.',
   'كلاود ماتشا جوز الهند': 'Silky coconut matcha topped with a light cloud of whipped foam.',
-  'لاتيه ماتشا ساخن': 'A warm, creamy latte made with premium matcha, steamed milk and a touch of sweetness.',
+  'لاتيه ماتشا': 'A warm, creamy latte made with premium matcha, steamed milk and a touch of sweetness.',
   'ماتشا لاتيه': 'Refreshing premium matcha blended with creamy milk and ice.',
   'لاتيه الماتشا بالقهوة': 'A smooth, creamy blend of premium matcha, rich coffee and steamed milk.',
   'كريم ماتشا': 'Silky Japanese matcha blended with velvety steamed milk.',
@@ -109,20 +110,21 @@ const ENGLISH_DESCRIPTIONS = {
   'كرواسون شوكولاتة': 'A buttery croissant filled with rich, melted chocolate.',
   'إسبريسو سينجل': 'A concentrated single shot of bold, dark-roasted coffee.',
   'إسبريسو دوبل': 'Two concentrated shots of rich, aromatic espresso.',
-  'ماكياتو ساخن': 'A bold espresso shot topped with a spoonful of milk foam.',
-  'سبانش بيكولو ساخن': 'A small, rich coffee drink with concentrated espresso and creamy milk.',
-  'بيكولو ساخن': 'A balanced small coffee made with espresso, steamed milk and soft foam.',
-  'V60 جوز الهند الساخن': 'Aromatic pour-over coffee blended with coconut milk and tropical notes.',
-  'لاتيه إسباني ساخن': 'Espresso with sweet condensed milk and steamed milk.',
+  'ماكياتو': 'A bold espresso shot topped with a spoonful of milk foam.',
+  'سبانش بيكولو': 'A small, rich coffee drink with concentrated espresso and creamy milk.',
+  'بيكولو': 'A balanced small coffee made with espresso, steamed milk and soft foam.',
+  'V60 جوز الهند': 'Aromatic pour-over coffee blended with coconut milk and tropical notes.',
+  'سبانش لاتيه': 'Espresso with sweet condensed milk and steamed milk.',
   'كابتشينو': 'Rich espresso, steamed milk and velvety foam in a classic cappuccino.',
-  'شوكولاتة ساخنة': 'Rich hot chocolate topped with cream.',
-  'V60 كولومبيا الساخن': 'Single-origin Colombian pour-over coffee with fruity notes and balanced acidity.',
-  'V60 إثيوبيا الساخن': 'Single-origin Ethiopian pour-over coffee with floral notes and citrus acidity.',
-  'أمريكانو ساخن': 'Bold espresso softened with hot water.',
-  'لاتيه ساخن': 'Classic espresso with steamed milk and a thin layer of foam.',
+  'شوكولاتة': 'Rich hot chocolate topped with cream.',
+  'V60 كولومبيا': 'Single-origin Colombian pour-over coffee with fruity notes and balanced acidity.',
+  'V60 إثيوبيا': 'Single-origin Ethiopian pour-over coffee with floral notes and citrus acidity.',
+  'أمريكانو': 'Bold espresso softened with hot water.',
+  'لاتيه': 'Classic espresso with steamed milk and a thin layer of foam.',
   'كورتادو': 'Equal parts espresso and steamed milk for a smooth, balanced coffee.',
   'كورتادو إسباني مثلج': 'Equal parts espresso and cold milk served over ice.',
-  'كورتادو إسباني ساخن': 'Espresso with sweet condensed milk and steamed milk.',
+  'سبانش كورتادو مثلج': 'Equal parts espresso and cold milk served over ice.',
+  'سبانش كورتادو': 'Espresso with sweet condensed milk and steamed milk.',
   'فلات وايت': 'Rich espresso with smooth, velvety microfoam.',
   'V60 جوز الهند المثلج': 'Refreshing iced V60 coffee with smooth coconut flavor.',
   'V60 بلاك جولد المثلج': 'Smooth, bold iced coffee with rich dark-roast notes.',
@@ -203,9 +205,28 @@ function el(tag, attrs = {}, ...kids) {
 
 const fmt = p => Number(p).toFixed(2);
 
+const HOT_ENGLISH_DESCRIPTIONS = {
+  'لاتيه ماتشا': 'A warm, creamy latte made with premium matcha, steamed milk and a touch of sweetness.',
+  'ماكياتو': 'A bold espresso shot topped with a spoonful of milk foam.',
+  'سبانش بيكولو': 'A small, rich coffee drink with concentrated espresso and creamy milk.',
+  'بيكولو': 'A balanced small coffee made with espresso, steamed milk and soft foam.',
+  'V60 جوز الهند': 'Aromatic pour-over coffee blended with coconut milk and tropical notes.',
+  'سبانش لاتيه': 'Espresso with sweet condensed milk and steamed milk.',
+  'V60 كولومبي': 'Single-origin Colombian pour-over coffee with fruity notes and balanced acidity.',
+  'V60 إثيوبيا': 'Single-origin Ethiopian pour-over coffee with floral notes and citrus acidity.',
+  'أمريكانو': 'Bold espresso softened with hot water.',
+  'لاتيه': 'Classic espresso with steamed milk and a thin layer of foam.',
+  'سبانش كورتادو': 'Espresso with sweet condensed milk and steamed milk.',
+  'شوكولاتة': 'Rich hot chocolate topped with cream.'
+};
+
 function card(i) {
   const name = language === 'ar' ? i.name : i.en || ENGLISH_NAMES[i.name] || i.name;
-  const description = language === 'ar' ? i.desc : ENGLISH_DESCRIPTIONS[i.name] || '';
+  const description = language === 'ar'
+    ? i.desc
+    : i.cat === 'قهوة ساخنة'
+      ? HOT_ENGLISH_DESCRIPTIONS[i.name] || ENGLISH_DESCRIPTIONS[i.name] || ''
+      : ENGLISH_DESCRIPTIONS[i.name] || '';
   return el('article', { class: 'card' },
     el('div', { class: 'ph' }, i.img ? el('img', {
       src: i.img,
@@ -302,7 +323,7 @@ async function loadSharedMenu() {
 
     MENU.items = data.map(row => ({
       id: row.id,
-      name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim(),
+      name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name === 'كورتادو إسباني مثلج' || row.name === 'سبانش كورتادو مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim(),
       en: row.name === 'كورتادو مثلج'
         ? 'Iced Spanish Cortado'
         : ENGLISH_NAMES[row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
@@ -313,7 +334,7 @@ async function loadSharedMenu() {
       cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
       img: row.image_url || '',
       position: row.image_position || undefined,
-      fit: ['V60 جوز الهند الساخن', 'V60 كولومبيا الساخن', 'V60 إثيوبيا الساخن', 'V60 إثيوبيا', 'V60 كولومبيا', 'V60 بلاك جولد المثلج', 'V60 توباكو المثلج', 'V60 بلاك باك المثلج'].includes(row.name)
+      fit: ['V60 جوز الهند', 'V60 كولومبيا', 'V60 إثيوبيا', 'V60 بلاك جولد المثلج', 'V60 توباكو المثلج', 'V60 بلاك باك المثلج'].includes(row.name)
         ? 'contain'
         : row.image_fit || undefined,
       rotate: row.image_rotation ?? undefined
