@@ -21,6 +21,9 @@ button{cursor:pointer}
 .admin-main{max-width:1260px;margin:24px auto;padding:0 18px 60px}
 .notice{margin:18px 0;padding:14px 16px;border-inline-start:3px solid var(--green);background:#fff;color:#404a42;font-size:14px}
 .notice.error{border-color:var(--red);color:var(--red)}
+.password-manager{margin-bottom:18px;padding:12px 14px;border:1px solid var(--line);background:var(--paper)}
+.password-manager summary{font-size:14px;font-weight:700;cursor:pointer}
+.password-manager .login-form{max-width:430px;margin-top:14px}
 .auth-panel{width:min(100%,430px);margin:50px auto;padding:24px;border:1px solid var(--line);background:var(--paper)}
 .auth-panel h2{margin:0 0 18px;font-size:20px}
 .field{display:grid;align-content:start;gap:6px;min-width:0}

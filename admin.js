@@ -399,6 +399,41 @@ async function saveItem(event) {
   }
 }
 
+async function changeOwnerPassword(event) {
+  event.preventDefault();
+  const currentPassword = $('#current-password').value;
+  const newPassword = $('#new-password').value;
+  const confirmPassword = $('#confirm-password').value;
+  if (newPassword.length < 8) {
+    setStatus('كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل.', true);
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    setStatus('تأكيد كلمة المرور غير مطابق.', true);
+    return;
+  }
+
+  setStatus('جارٍ التحقق من كلمة المرور الحالية…');
+  try {
+    const { error: verificationError } = await client.auth.signInWithPassword({
+      email: OWNER_AUTH_EMAIL,
+      password: currentPassword
+    });
+    if (verificationError) {
+      setStatus('كلمة المرور الحالية غير صحيحة.', true);
+      return;
+    }
+
+    const { error } = await client.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+    $('#password-form').reset();
+    setStatus('تم تغيير كلمة مرور لوحة التحكم بنجاح.');
+  } catch (error) {
+    console.error('Could not change owner password.', error);
+    setStatus(error.message || 'تعذر تغيير كلمة المرور.', true);
+  }
+}
+
 if (!hasConfig) {
   $('#setup-notice').hidden = false;
 } else {
@@ -430,6 +465,7 @@ if (!hasConfig) {
   });
 
   $('#menu-form').addEventListener('submit', event => saveItem(event));
+  $('#password-form').addEventListener('submit', changeOwnerPassword);
   $('#category-form').addEventListener('submit', event => saveCategory(event));
   $('#cancel-category-edit').addEventListener('click', cancelCategoryEdit);
   $('#new-item').addEventListener('click', () => fillForm());

@@ -46,6 +46,24 @@
   </section>
 
   <section id="manager" hidden>
+    <details class="password-manager">
+      <summary>تغيير كلمة مرور لوحة التحكم</summary>
+      <form id="password-form" class="login-form">
+        <div class="field">
+          <label for="current-password">كلمة المرور الحالية</label>
+          <input id="current-password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="new-password">كلمة المرور الجديدة (8 أحرف على الأقل)</label>
+          <input id="new-password" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="field">
+          <label for="confirm-password">تأكيد كلمة المرور الجديدة</label>
+          <input id="confirm-password" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <button class="button button-primary" type="submit">حفظ كلمة المرور الجديدة</button>
+      </form>
+    </details>
     <div class="admin-shell">
       <section class="inventory" aria-labelledby="inventory-title">
         <header class="panel-header">
@@ -134,6 +152,6 @@
 <script src="menu.js?v=hot-drinks-category-20261007"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin.js?v=hot-drinks-category-20261007"></script>
+<script src="admin.js?v=owner-password-20261007"></script>
 </body>
 </html>
