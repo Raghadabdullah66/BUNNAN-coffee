@@ -80,7 +80,7 @@ const MENU = {
       "en": "Hibiscus",
       "desc": "كركديه منعش يعلوه الحليب المخفوق.",
       "price": 20,
-      "cat": "مشروبات باردة",
+      "cat": "مشروبات الموهيتو",
       "img": "images/iced-hibiscus-ref.jpg"
     },
     {
