@@ -22,13 +22,13 @@ const ENGLISH_NAMES = {
   'إسبريسو سينجل': 'Single Espresso',
   'إسبريسو دوبل': 'Double Espresso',
   'هوت ماكياتو': 'Hot Macchiato',
-  'هوت سبانش بيكولو': 'Spanish Piccolo',
+  'هوت سبانش بيكولو': 'Hot Spanish Piccolo',
   'بيكولو ساخن': 'Hot Piccolo',
-  'هوت V60 جوز الهند': 'V60 Coconut',
+  'هوت V60 جوز الهند': 'Hot V60 Coconut',
   'لاتيه إسباني ساخن': 'Hot Spanish Latte',
   'كابتشينو': 'Cappuccino',
-  'هوت V60 كولومبيا': 'V60 Colombia',
-  'هوت V60 إثيوبيا': 'V60 Ethiopia',
+  'هوت V60 كولومبيا': 'Hot V60 Colombia',
+  'هوت V60 إثيوبيا': 'Hot V60 Ethiopia',
   'أمريكانو ساخن': 'Hot Americano',
   'لاتيه ساخن': 'Hot Latte',
   'كورتادو': 'Cortado',
@@ -292,9 +292,9 @@ async function loadSharedMenu() {
       name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
       en: row.name === 'كورتادو مثلج'
         ? 'Iced Spanish Cortado'
-        : row.english_name
+        : ENGLISH_NAMES[row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
           ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
-        : '',
+        : ''),
       desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
       price: Number(row.price),
       cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
