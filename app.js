@@ -326,7 +326,7 @@ async function loadSharedMenu() {
       name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name === 'كورتادو إسباني مثلج' || row.name === 'سبانش كورتادو مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim(),
       en: row.name === 'كورتادو مثلج'
         ? 'Iced Spanish Cortado'
-        : ENGLISH_NAMES[row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
+        : ENGLISH_NAMES[row.name === 'كورتادو إسباني مثلج' || row.name === 'سبانش كورتادو مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
           ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
         : ''),
       desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
