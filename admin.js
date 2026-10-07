@@ -377,9 +377,10 @@ async function deleteItem(item) {
 async function saveItem(event) {
   event.preventDefault();
   const name = $('#item-name').value.trim();
+  const englishName = $('#item-en').value.trim();
   const price = Number($('#item-price').value);
-  if (!name || !Number.isFinite(price) || price < 0) {
-    setStatus('أدخلي اسمًا وسعرًا صحيحًا.', true);
+  if (!name || !englishName || !Number.isFinite(price) || price < 0) {
+    setStatus('أدخلي اسم الصنف بالعربي والإنجليزي وسعرًا صحيحًا.', true);
     return;
   }
 
@@ -395,7 +396,7 @@ async function saveItem(event) {
 
     const row = {
       name,
-      english_name: $('#item-en').value.trim() || null,
+      english_name: englishName,
       description: $('#item-description').value.trim(),
       price,
       category: $('#item-category').value,
