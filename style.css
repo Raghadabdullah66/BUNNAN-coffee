@@ -17,8 +17,6 @@ html[lang="en"] .brand{flex-direction:row-reverse}
 .icon-button:hover{background:#ffffff24;transform:translateY(-1px)}
 .search-icon{position:relative;display:block;width:15px;height:15px;border:1.7px solid currentColor;border-radius:50%}
 .search-icon::after{position:absolute;right:-5px;bottom:-3px;width:7px;height:1.7px;border-radius:2px;background:currentColor;content:"";transform:rotate(48deg)}
-.menu-icon{display:grid;width:19px;gap:5px}
-.menu-icon i{display:block;width:19px;height:2px;border-radius:2px;background:currentColor}
 .hero-copy{position:static;width:min(92%,720px);margin:auto;text-align:center;transform:none}
 .hero-kicker{margin:0 0 15px;color:var(--cherry);font-size:14px;font-weight:600;animation:rise-in .8s .08s both}
 .hero-copy h1{margin:0;color:var(--forest);font-family:"IBM Plex Sans Arabic",sans-serif;font-size:52px;font-weight:700;line-height:1.45;animation:rise-in .8s .2s both}
@@ -92,8 +90,6 @@ h2{margin:27px 0 15px;padding-inline-start:13px;border-inline-start:3px solid va
 .footer-location{display:inline-flex;align-items:center;gap:5px;margin:20px 0 0;color:inherit;font-size:15px;text-decoration:none}
 .location-icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}
 .footer-social:hover,.footer-location:hover{color:#fff}
-.footer-credit{margin:5px 0 0;color:inherit;font-size:11px}
-.footer-credit a{color:inherit}
 @media(max-width:700px){
 	.tools-inner{padding:10px 14px 7px}
 	.search-field{min-height:42px;margin-bottom:7px}

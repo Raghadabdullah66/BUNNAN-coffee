@@ -186,8 +186,6 @@ function applyLanguage() {
   toggle.title = isArabic ? 'Switch to English' : 'التبديل إلى العربية';
   $('.hero-cta').lang = language;
   $('.hero-cta').dir = language === 'ar' ? 'rtl' : 'ltr';
-  $('#menu-trigger').setAttribute('aria-label', isArabic ? 'انتقل إلى المنيو' : 'Go to menu');
-  $('#menu-trigger').title = isArabic ? 'انتقل إلى المنيو' : 'Go to menu';
   $('#search-trigger').setAttribute('aria-label', isArabic ? 'ابحث في المنيو' : 'Search the menu');
   $('#search-trigger').title = isArabic ? 'ابحث في المنيو' : 'Search the menu';
 }
@@ -362,7 +360,4 @@ $('#search-trigger').addEventListener('click', () => {
   $('#search-trigger').setAttribute('aria-expanded', String(isOpen));
   menuTools.scrollIntoView({ behavior: 'smooth', block: 'start' });
   if (isOpen) searchInput.focus({ preventScroll: true });
-});
-$('#menu-trigger').addEventListener('click', () => {
-  $('#menu-tools').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
