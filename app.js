@@ -75,6 +75,7 @@ const CATEGORY_LABELS = {
   'مشروبات الماتشا': 'ماتشا',
   'الآساي': 'أساي',
   'قهوة ساخنة': 'مشروبات ساخنة',
+  'مشروبات ساخنة': 'مشروبات ساخنة',
   'مشروبات باردة': 'مشروبات باردة'
 };
 const ENGLISH_CATEGORIES = {
@@ -228,7 +229,7 @@ function card(i) {
   const name = language === 'ar' ? i.name : i.en || ENGLISH_NAMES[i.name] || i.name;
   const description = language === 'ar'
     ? i.desc
-    : i.cat === 'قهوة ساخنة'
+    : i.cat === 'قهوة ساخنة' || i.cat === 'مشروبات ساخنة'
       ? HOT_ENGLISH_DESCRIPTIONS[i.name] || ENGLISH_DESCRIPTIONS[i.name] || ''
       : ENGLISH_DESCRIPTIONS[i.name] || '';
   return el('article', { class: 'card' },
@@ -246,7 +247,7 @@ function card(i) {
 function render() {
   const orderedCats = DATABASE_CATEGORIES.length
     ? [...DATABASE_CATEGORIES, ...MENU.items.map(item => item.cat)]
-    : ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats, ...MENU.items.map(item => item.cat)];
+    : ['مشروبات الماتشا', 'مشروبات ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats, ...MENU.items.map(item => item.cat)];
   const cats = [...new Set(orderedCats)];
   if (active !== 'all' && !cats.includes(active)) active = 'all';
 
@@ -321,8 +322,11 @@ async function loadSharedMenu() {
     if (categoryError) {
       console.error('Could not load translated menu category names.', categoryError);
     } else {
-      DATABASE_CATEGORIES = categoryData.map(category => category.name);
-      DATABASE_CATEGORY_ENGLISH = Object.fromEntries(categoryData.map(category => [category.name, category.english_name]));
+      DATABASE_CATEGORIES = categoryData.map(category => category.name === 'قهوة ساخنة' ? 'مشروبات ساخنة' : category.name);
+      DATABASE_CATEGORY_ENGLISH = Object.fromEntries(categoryData.map(category => [
+        category.name === 'قهوة ساخنة' ? 'مشروبات ساخنة' : category.name,
+        category.english_name
+      ]));
     }
 
     MENU.items = data.map(row => ({
@@ -335,7 +339,7 @@ async function loadSharedMenu() {
         : ''),
       desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
       price: Number(row.price),
-      cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
+      cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category === 'قهوة ساخنة' ? 'مشروبات ساخنة' : row.category,
       img: row.image_url || '',
       position: row.image_position || undefined,
       fit: ['V60 جوز الهند', 'V60 كولومبيا', 'V60 إثيوبيا', 'V60 بلاك جولد المثلج', 'V60 توباكو المثلج', 'V60 بلاك باك المثلج'].includes(row.name)

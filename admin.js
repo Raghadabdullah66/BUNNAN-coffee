@@ -3,6 +3,7 @@ const config = window.BUNNAN_SUPABASE_CONFIG || {};
 const hasConfig = Boolean(config.url && config.anonKey && window.supabase);
 const OWNER_AUTH_EMAIL = 'bunnan-admin@bunnan.invalid';
 const BUILT_IN_CATEGORIES = new Set(MENU.cats);
+const categoryLabel = name => name === 'قهوة ساخنة' ? 'مشروبات ساخنة' : name;
 let items = [];
 let categories = [];
 let editingId = null;
@@ -38,7 +39,7 @@ function normalizeRow(row) {
     desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
     price: Number(row.price),
     rawCategory: row.category,
-    cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
+    cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : categoryLabel(row.category),
     img: row.image_url || '',
     off: !row.available,
     sort_order: row.sort_order
@@ -58,7 +59,11 @@ function renderCategories() {
   const categoryFilter = $('#category-filter');
   const categorySelect = $('#item-category');
   const previous = categoryFilter.value;
-  const names = [...new Set([...MENU.cats, ...items.map(item => item.cat), ...categories.map(category => category.name)])];
+  const names = [...new Set([
+    ...MENU.cats,
+    ...items.map(item => item.cat),
+    ...categories.map(category => categoryLabel(category.name))
+  ])];
   categoryFilter.replaceChildren(new Option('كل الأقسام', 'all'));
   categorySelect.replaceChildren();
   names.forEach(category => {
@@ -73,13 +78,14 @@ function renderCategoryList() {
   list.replaceChildren(...categories.map(category => {
     const entry = document.createElement('li');
     const label = document.createElement('span');
-    label.textContent = `${category.name} · ${category.english_name}`;
+    const name = categoryLabel(category.name);
+    label.textContent = `${name} · ${category.english_name}`;
     entry.append(label);
 
     const editButton = makeButton('تعديل', 'button-secondary category-edit', () => editCategory(category));
     entry.append(editButton);
 
-    if (BUILT_IN_CATEGORIES.has(category.name)) {
+    if (BUILT_IN_CATEGORIES.has(name)) {
       const marker = document.createElement('span');
       marker.className = 'category-default-label';
       marker.textContent = 'أساسي';
@@ -99,8 +105,8 @@ function renderCategoryList() {
 
 function editCategory(category) {
   editingCategoryName = category.name;
-  $('#category-name').value = category.name;
-  $('#category-name').readOnly = BUILT_IN_CATEGORIES.has(category.name);
+  $('#category-name').value = categoryLabel(category.name);
+  $('#category-name').readOnly = false;
   $('#category-en').value = category.english_name;
   $('#category-form button[type="submit"]').textContent = 'حفظ القسم';
   $('#cancel-category-edit').hidden = false;
@@ -299,7 +305,7 @@ async function saveCategory(event) {
 }
 
 async function deleteCategory(category) {
-  if (BUILT_IN_CATEGORIES.has(category.name)) {
+  if (BUILT_IN_CATEGORIES.has(categoryLabel(category.name))) {
     setStatus('لا يمكن حذف الأقسام الأساسية.', true);
     return;
   }
@@ -374,7 +380,7 @@ async function saveItem(event) {
       english_name: englishName,
       description: $('#item-description').value.trim(),
       price,
-      category: $('#item-category').value,
+      category: categories.find(entry => categoryLabel(entry.name) === $('#item-category').value)?.name || $('#item-category').value,
       image_url: imageUrl,
       available: $('#item-available').checked,
       sort_order: previous?.sort_order ?? items.length
