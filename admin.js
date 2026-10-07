@@ -27,7 +27,7 @@ function setSignedIn(session) {
 function normalizeRow(row) {
   return {
     id: row.id,
-    name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
+    name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim(),
     en: row.name === 'كورتادو مثلج'
       ? 'Cold Cortado'
       : row.name === 'كورتادو إسباني مثلج'

@@ -6,14 +6,14 @@ let DATABASE_CATEGORIES = [];
 
 const ENGLISH_NAMES = {
   'لاتيه ماتشا جوز الهند': 'Coconut Matcha Latte',
-  'كلاود كوكنت ماتشا': 'Cloud Coconut Matcha',
+  'كلاود ماتشا جوز الهند': 'Cloud Coconut Matcha',
   'لاتيه ماتشا ساخن': 'Hot Matcha Latte',
   'ماتشا لاتيه': 'Matcha Latte',
   'لاتيه الماتشا بالقهوة': 'Coffee Matcha Latte',
   'كريم ماتشا': 'Matcha Cream',
   'سلاش ماتشا': 'Matcha Slush',
   'وعاء الآساي': 'Acai Bowl',
-  'آساي سموذي': 'Acai Smoothie',
+  'سموذي الآساي': 'Acai Smoothie',
   'كرواسون سادة': 'Plain Croissant',
   'كرواسون باللوز': 'Almond Croissant',
   'كرواسون البقان': 'Pecan Croissant',
@@ -22,34 +22,35 @@ const ENGLISH_NAMES = {
   'كرواسون شوكولاتة': 'Chocolate Croissant',
   'إسبريسو سينجل': 'Single Espresso',
   'إسبريسو دوبل': 'Double Espresso',
-  'هوت ماكياتو': 'Hot Macchiato',
-  'هوت سبانش بيكولو': 'Hot Spanish Piccolo',
+  'ماكياتو ساخن': 'Hot Macchiato',
+  'سبانش بيكولو ساخن': 'Hot Spanish Piccolo',
   'بيكولو ساخن': 'Hot Piccolo',
-  'هوت V60 جوز الهند': 'Hot V60 Coconut',
+  'V60 جوز الهند الساخن': 'Hot V60 Coconut',
   'لاتيه إسباني ساخن': 'Hot Spanish Latte',
   'كابتشينو': 'Cappuccino',
-  'هوت V60 كولومبيا': 'Hot V60 Colombia',
-  'هوت V60 إثيوبيا': 'Hot V60 Ethiopia',
+  'V60 كولومبيا الساخن': 'Hot V60 Colombia',
+  'V60 إثيوبيا الساخن': 'Hot V60 Ethiopia',
   'أمريكانو ساخن': 'Hot Americano',
   'لاتيه ساخن': 'Hot Latte',
   'كورتادو': 'Cortado',
-  'كورتادو إسباني': 'Iced Spanish Cortado',
+  'كورتادو إسباني مثلج': 'Iced Spanish Cortado',
   'كورتادو بارد': 'Iced Spanish Cortado',
   'كورتادو إسباني ساخن': 'Hot Spanish Cortado',
   'فلات وايت': 'Flat White',
-  'آيس في 60 جوز الهند': 'Iced Coconut V60',
-  'آيس بلاك جولد': 'V60 BLACK GOLD',
-  'آيس في 60 تباكو': 'V60 TOBACCO',
-  'بلاك باك': 'V60 BLACK PACK',
-  'في 60 كولومبيا': 'V60 Colombia',
-  'في 60 إثيوبيا': 'V60 Ethiopia',
+  'V60 جوز الهند المثلج': 'Iced Coconut V60',
+  'V60 بلاك جولد المثلج': 'V60 BLACK GOLD',
+  'V60 توباكو المثلج': 'V60 TOBACCO',
+  'V60 بلاك باك المثلج': 'V60 BLACK PACK',
+  'V60 كولومبيا': 'V60 Colombia',
+  'V60 إثيوبيا': 'V60 Ethiopia',
   'لاتيه إسباني': 'Spanish Latte',
-  'أمريكانو': 'Iced Americano',
+  'أمريكانو مثلج': 'Iced Americano',
+  'لاتيه مثلج': 'Iced Latte',
   'لاتيه': 'Latte',
   'كورتادو': 'Cortado',
   'كريمة إسبريسو': 'Espresso Cream',
   'موهيتو فراولة': 'Strawberry Mojito',
-  'موهيتو بلوجون': 'Blue Lagoon Mojito',
+  'موهيتو بلو لاغون': 'Blue Lagoon Mojito',
   'موهيتو باشن فروت': 'Passion Fruit Mojito',
   'نوتيلا شو': 'Nutella Choux',
   'فراوله بالشوكلت': 'Strawberries with Chocolate',
@@ -91,14 +92,14 @@ const categoryLabel = category => language === 'ar'
   : DATABASE_CATEGORY_ENGLISH[category] || ENGLISH_CATEGORIES[category] || category;
 const ENGLISH_DESCRIPTIONS = {
   'لاتيه ماتشا جوز الهند': 'Smooth, creamy matcha latte blended with rich coconut milk and topped with velvety foam.',
-  'كلاود كوكنت ماتشا': 'Silky coconut matcha topped with a light cloud of whipped foam.',
+  'كلاود ماتشا جوز الهند': 'Silky coconut matcha topped with a light cloud of whipped foam.',
   'لاتيه ماتشا ساخن': 'A warm, creamy latte made with premium matcha, steamed milk and a touch of sweetness.',
   'ماتشا لاتيه': 'Refreshing premium matcha blended with creamy milk and ice.',
   'لاتيه الماتشا بالقهوة': 'A smooth, creamy blend of premium matcha, rich coffee and steamed milk.',
   'كريم ماتشا': 'Silky Japanese matcha blended with velvety steamed milk.',
   'سلاش ماتشا': 'A refreshing icy matcha slush with a smooth, earthy flavor.',
   'وعاء الآساي': 'An acai bowl topped with fresh granola, crunchy coconut flakes and mixed berries.',
-  'آساي سموذي': 'A refreshing, nourishing acai smoothie with a rich berry flavor.',
+  'سموذي الآساي': 'A refreshing, nourishing acai smoothie with a rich berry flavor.',
   'كركديه': 'Refreshing hibiscus topped with whipped milk.',
   'كرواسون سادة': 'A buttery, flaky croissant baked until golden.',
   'كرواسون باللوز': 'A buttery croissant filled with smooth almond paste and topped with almond flakes.',
@@ -108,34 +109,35 @@ const ENGLISH_DESCRIPTIONS = {
   'كرواسون شوكولاتة': 'A buttery croissant filled with rich, melted chocolate.',
   'إسبريسو سينجل': 'A concentrated single shot of bold, dark-roasted coffee.',
   'إسبريسو دوبل': 'Two concentrated shots of rich, aromatic espresso.',
-  'هوت ماكياتو': 'A bold espresso shot topped with a spoonful of milk foam.',
-  'هوت سبانش بيكولو': 'A small, rich coffee drink with concentrated espresso and creamy milk.',
+  'ماكياتو ساخن': 'A bold espresso shot topped with a spoonful of milk foam.',
+  'سبانش بيكولو ساخن': 'A small, rich coffee drink with concentrated espresso and creamy milk.',
   'بيكولو ساخن': 'A balanced small coffee made with espresso, steamed milk and soft foam.',
-  'هوت V60 جوز الهند': 'Aromatic pour-over coffee blended with coconut milk and tropical notes.',
+  'V60 جوز الهند الساخن': 'Aromatic pour-over coffee blended with coconut milk and tropical notes.',
   'لاتيه إسباني ساخن': 'Espresso with sweet condensed milk and steamed milk.',
   'كابتشينو': 'Rich espresso, steamed milk and velvety foam in a classic cappuccino.',
   'شوكولاتة ساخنة': 'Rich hot chocolate topped with cream.',
-  'هوت V60 كولومبيا': 'Single-origin Colombian pour-over coffee with fruity notes and balanced acidity.',
-  'هوت V60 إثيوبيا': 'Single-origin Ethiopian pour-over coffee with floral notes and citrus acidity.',
+  'V60 كولومبيا الساخن': 'Single-origin Colombian pour-over coffee with fruity notes and balanced acidity.',
+  'V60 إثيوبيا الساخن': 'Single-origin Ethiopian pour-over coffee with floral notes and citrus acidity.',
   'أمريكانو ساخن': 'Bold espresso softened with hot water.',
   'لاتيه ساخن': 'Classic espresso with steamed milk and a thin layer of foam.',
   'كورتادو': 'Equal parts espresso and steamed milk for a smooth, balanced coffee.',
-  'كورتادو إسباني': 'Equal parts espresso and cold milk served over ice.',
+  'كورتادو إسباني مثلج': 'Equal parts espresso and cold milk served over ice.',
   'كورتادو إسباني ساخن': 'Espresso with sweet condensed milk and steamed milk.',
   'فلات وايت': 'Rich espresso with smooth, velvety microfoam.',
-  'آيس في 60 جوز الهند': 'Refreshing iced V60 coffee with smooth coconut flavor.',
-  'آيس بلاك جولد': 'Smooth, bold iced coffee with rich dark-roast notes.',
-  'آيس في 60 تباكو': 'Refreshing iced V60 pour-over with subtle smoky notes.',
-  'بلاك باك': 'Bold iced coffee with a rich flavor.',
-  'في 60 كولومبيا': 'Single-origin Colombian pour-over with fruity notes and balanced acidity.',
-  'في 60 إثيوبيا': 'Single-origin Ethiopian pour-over with floral notes and citrus acidity.',
+  'V60 جوز الهند المثلج': 'Refreshing iced V60 coffee with smooth coconut flavor.',
+  'V60 بلاك جولد المثلج': 'Smooth, bold iced coffee with rich dark-roast notes.',
+  'V60 توباكو المثلج': 'Refreshing iced V60 pour-over with subtle smoky notes.',
+  'V60 بلاك باك المثلج': 'Bold iced coffee with a rich flavor.',
+  'V60 كولومبيا': 'Single-origin Colombian pour-over with fruity notes and balanced acidity.',
+  'V60 إثيوبيا': 'Single-origin Ethiopian pour-over with floral notes and citrus acidity.',
   'لاتيه إسباني': 'Espresso, sweet condensed milk and cold milk served over ice.',
-  'أمريكانو': 'Bold espresso with cold water and ice.',
+  'أمريكانو مثلج': 'Bold espresso with cold water and ice.',
+  'لاتيه مثلج': 'Espresso, creamy cold milk and ice.',
   'لاتيه': 'Smooth espresso and creamy cold milk served over ice.',
   'كورتادو بارد': 'Equal parts espresso and cold milk served over ice.',
   'كريمة إسبريسو': 'Iced espresso topped with smooth whipped cream.',
   'موهيتو فراولة': 'A refreshing mojito with fresh strawberry and mint.',
-  'موهيتو بلوجون': 'A refreshing mojito with a vibrant blue color and tropical flavor.',
+  'موهيتو بلو لاغون': 'A refreshing mojito with a vibrant blue color and tropical flavor.',
   'موهيتو باشن فروت': 'A tropical mojito with refreshing passion fruit.',
   'نوتيلا شو': 'A crisp choux pastry filled with rich, smooth Nutella cream.',
   'فراوله بالشوكلت': 'A special dessert combining fresh strawberries and rich chocolate.',
@@ -271,7 +273,7 @@ function moveMenuItemAfter(itemName, referenceName) {
   MENU.items.splice(updatedReferenceIndex + 1, 0, item);
 }
 
-moveMenuItemAfter('آيس في 60 جوز الهند', 'أمريكانو');
+moveMenuItemAfter('V60 جوز الهند المثلج', 'أمريكانو مثلج');
 applyLanguage();
 render();
 
@@ -302,10 +304,10 @@ async function loadSharedMenu() {
 
     MENU.items = data.map(row => ({
       id: row.id,
-      name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name.replace(/\s*مثلج/g, '').trim(),
+      name: row.name === 'كورتادو مثلج' ? 'كورتادو بارد' : row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim(),
       en: row.name === 'كورتادو مثلج'
         ? 'Iced Spanish Cortado'
-        : ENGLISH_NAMES[row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
+        : ENGLISH_NAMES[row.name === 'كورتادو إسباني مثلج' || row.name === 'لاتيه مثلج' ? row.name : row.name.replace(/\s*مثلج/g, '').trim()] || (row.english_name
           ? row.name.includes('مثلج') ? row.english_name.replace(/^Iced\s+/i, '') : row.english_name
         : ''),
       desc: (row.description || '').replace(/مثلجة/g, 'باردة').replace(/مثلج/g, 'بارد'),
@@ -313,12 +315,12 @@ async function loadSharedMenu() {
       cat: row.category === 'قهوة باردة' ? 'مشروبات باردة' : row.category,
       img: row.image_url || '',
       position: row.image_position || undefined,
-      fit: ['هوت V60 جوز الهند', 'هوت V60 كولومبيا', 'هوت V60 إثيوبيا', 'في 60 إثيوبيا', 'في 60 كولومبيا', 'آيس بلاك جولد', 'آيس في 60 تباكو', 'بلاك باك'].includes(row.name)
+      fit: ['V60 جوز الهند الساخن', 'V60 كولومبيا الساخن', 'V60 إثيوبيا الساخن', 'V60 إثيوبيا', 'V60 كولومبيا', 'V60 بلاك جولد المثلج', 'V60 توباكو المثلج', 'V60 بلاك باك المثلج'].includes(row.name)
         ? 'contain'
         : row.image_fit || undefined,
       rotate: row.image_rotation ?? undefined
     }));
-    moveMenuItemAfter('آيس في 60 جوز الهند', 'أمريكانو');
+    moveMenuItemAfter('V60 جوز الهند المثلج', 'أمريكانو مثلج');
     render();
   } catch (error) {
     console.error('Could not load the shared Bunnan menu.', error);
