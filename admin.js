@@ -2,6 +2,8 @@ const $ = selector => document.querySelector(selector);
 const config = window.BUNNAN_SUPABASE_CONFIG || {};
 const hasConfig = Boolean(config.url && config.anonKey && window.supabase);
 const OWNER_AUTH_EMAIL = 'bunnan-admin@bunnan.invalid';
+const DEFAULT_OWNER_USERNAME = 'bunnan-admin';
+const SAVED_OWNER_USERNAME_KEY = 'bunnan-owner-username';
 const BUILT_IN_CATEGORIES = new Set(MENU.cats);
 const categoryLabel = name => name === 'قهوة ساخنة' ? 'مشروبات ساخنة' : name;
 let items = [];
@@ -434,6 +436,40 @@ async function changeOwnerPassword(event) {
   }
 }
 
+async function changeOwnerUsername(event) {
+  event.preventDefault();
+  const currentPassword = $('#username-current-password').value;
+  const newUsername = $('#new-username').value.trim();
+  if (newUsername.length < 3 || newUsername.length > 40) {
+    setStatus('اسم المستخدم يجب أن يكون بين 3 و40 حرفًا.', true);
+    return;
+  }
+
+  setStatus('جارٍ التحقق من كلمة المرور الحالية…');
+  try {
+    const { data, error: verificationError } = await client.auth.signInWithPassword({
+      email: OWNER_AUTH_EMAIL,
+      password: currentPassword
+    });
+    if (verificationError) {
+      setStatus('كلمة المرور الحالية غير صحيحة.', true);
+      return;
+    }
+
+    const { error } = await client.auth.updateUser({
+      data: { ...data.user.user_metadata, username: newUsername }
+    });
+    if (error) throw error;
+    localStorage.setItem(SAVED_OWNER_USERNAME_KEY, newUsername);
+    $('#login-username').value = newUsername;
+    $('#username-form').reset();
+    setStatus('تم تغيير اسم مستخدم لوحة التحكم بنجاح.');
+  } catch (error) {
+    console.error('Could not change owner username.', error);
+    setStatus(error.message || 'تعذر تغيير اسم المستخدم.', true);
+  }
+}
+
 if (!hasConfig) {
   $('#setup-notice').hidden = false;
 } else {
@@ -445,12 +481,20 @@ if (!hasConfig) {
   $('#login-form').addEventListener('submit', async event => {
     event.preventDefault();
     setStatus('جاري تسجيل الدخول…');
+    const username = $('#login-username').value.trim();
     const { data, error } = await client.auth.signInWithPassword({
       email: OWNER_AUTH_EMAIL,
       password: $('#login-password').value
     });
     if (error) {
       setStatus('تعذر تسجيل الدخول. تحققي من بيانات الحساب.', true);
+      return;
+    }
+    const savedUsername = data.user.user_metadata?.username || DEFAULT_OWNER_USERNAME;
+    if (username !== savedUsername) {
+      const { error: signOutError } = await client.auth.signOut({ scope: 'local' });
+      if (signOutError) console.error('Could not clear session after username mismatch.', signOutError);
+      setStatus('اسم المستخدم غير صحيح.', true);
       return;
     }
     setSignedIn(data.session);
@@ -465,6 +509,7 @@ if (!hasConfig) {
   });
 
   $('#menu-form').addEventListener('submit', event => saveItem(event));
+  $('#username-form').addEventListener('submit', changeOwnerUsername);
   $('#password-form').addEventListener('submit', changeOwnerPassword);
   $('#category-form').addEventListener('submit', event => saveCategory(event));
   $('#cancel-category-edit').addEventListener('click', cancelCategoryEdit);
@@ -481,6 +526,7 @@ if (!hasConfig) {
     selectedImage = event.target.files[0] || null;
     if (selectedImage) showPreview(URL.createObjectURL(selectedImage));
   });
+  $('#login-username').value = localStorage.getItem(SAVED_OWNER_USERNAME_KEY) || DEFAULT_OWNER_USERNAME;
 
   client.auth.getSession().then(({ data, error }) => {
     if (error) {

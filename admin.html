@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css?v=category-edit-20261007">
+<link rel="stylesheet" href="admin.css?v=owner-credentials-20261007">
 </head>
 <body>
 <header class="admin-header">
@@ -46,6 +46,20 @@
   </section>
 
   <section id="manager" hidden>
+    <details class="password-manager">
+      <summary>تغيير اسم مستخدم لوحة التحكم</summary>
+      <form id="username-form" class="login-form">
+        <div class="field">
+          <label for="username-current-password">كلمة المرور للتأكيد</label>
+          <input id="username-current-password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="new-username">اسم المستخدم الجديد</label>
+          <input id="new-username" type="text" minlength="3" maxlength="40" autocomplete="username" required>
+        </div>
+        <button class="button button-primary" type="submit">حفظ اسم المستخدم</button>
+      </form>
+    </details>
     <details class="password-manager">
       <summary>تغيير كلمة مرور لوحة التحكم</summary>
       <form id="password-form" class="login-form">
@@ -152,6 +166,6 @@
 <script src="menu.js?v=hot-drinks-category-20261007"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin.js?v=owner-password-20261007"></script>
+<script src="admin.js?v=owner-credentials-20261007"></script>
 </body>
 </html>
