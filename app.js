@@ -2,6 +2,7 @@
 const $ = s => document.querySelector(s);
 let active = 'all';
 let searchTerm = '';
+let DATABASE_CATEGORIES = [];
 
 const ENGLISH_NAMES = {
   'لاتيه ماتشا جوز الهند': 'Coconut Matcha Latte',
@@ -218,8 +219,10 @@ function card(i) {
 }
 
 function render() {
-  const orderedCats = ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats, ...Object.keys(DATABASE_CATEGORY_ENGLISH)];
-  const cats = [...new Set(orderedCats)].filter(category => MENU.items.some(item => item.cat === category && !item.off));
+  const orderedCats = DATABASE_CATEGORIES.length
+    ? [...DATABASE_CATEGORIES, ...MENU.items.map(item => item.cat)]
+    : ['مشروبات الماتشا', 'قهوة ساخنة', 'مشروبات باردة', 'الآساي', 'كرواسون', 'حلويات', ...MENU.cats, ...MENU.items.map(item => item.cat)];
+  const cats = [...new Set(orderedCats)];
   if (active !== 'all' && !cats.includes(active)) active = 'all';
 
   $('#chips').replaceChildren(...['all', ...cats].map(c =>
@@ -240,13 +243,22 @@ function render() {
   for (const c of cats) {
     if (active !== 'all' && c !== active) continue;
     const categoryItems = items.filter(item => item.cat === c);
-    if (!categoryItems.length) continue;
+    if (!categoryItems.length) {
+      if (searchTerm) continue;
+      app.append(
+        el('h2', {}, categoryLabel(c)),
+        el('p', { class: 'empty' }, language === 'ar'
+          ? 'لا توجد أصناف في هذا القسم.'
+          : 'There are no items in this category.')
+      );
+      continue;
+    }
     n += categoryItems.length;
     app.append(el('h2', {}, categoryLabel(c)), el('div', { class: 'grid' }, categoryItems.map(card)));
   }
-  if (!n) app.append(el('p', { class: 'empty' }, language === 'ar'
-    ? searchTerm ? 'ما لقينا أصناف تطابق بحثك.' : 'ما فيه أصناف في هذا القسم.'
-    : searchTerm ? 'No items matched your search.' : 'There are no items in this category.'));
+  if (!n && searchTerm) app.append(el('p', { class: 'empty' }, language === 'ar'
+    ? 'ما لقينا أصناف تطابق بحثك.'
+    : 'No items matched your search.'));
 }
 
 function moveMenuItemAfter(itemName, referenceName) {
@@ -284,6 +296,7 @@ async function loadSharedMenu() {
     if (categoryError) {
       console.error('Could not load translated menu category names.', categoryError);
     } else {
+      DATABASE_CATEGORIES = categoryData.map(category => category.name);
       DATABASE_CATEGORY_ENGLISH = Object.fromEntries(categoryData.map(category => [category.name, category.english_name]));
     }
 

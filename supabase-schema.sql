@@ -75,16 +75,58 @@ create policy "Admins can delete menu categories"
 on public.menu_categories for delete to authenticated
 using (exists (select 1 from public.menu_admins where user_id = auth.uid()));
 
+create or replace function public.rename_menu_category(
+  p_old text,
+  p_new text,
+  p_en text
+)
+returns void
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $$
+begin
+  if not exists (
+    select 1 from public.menu_admins where user_id = auth.uid()
+  ) then
+    raise exception 'Only menu admins can rename categories' using errcode = '42501';
+  end if;
+
+  if nullif(btrim(p_new), '') is null or nullif(btrim(p_en), '') is null then
+    raise exception 'Both category names are required' using errcode = '22023';
+  end if;
+
+  if p_new <> p_old and exists (
+    select 1 from public.menu_categories where name = p_new
+  ) then
+    raise exception 'A category with that name already exists' using errcode = '23505';
+  end if;
+
+  update public.menu_categories
+  set name = btrim(p_new),
+      english_name = btrim(p_en)
+  where name = p_old;
+
+  if not found then
+    raise exception 'Category not found' using errcode = 'P0002';
+  end if;
+
+  update public.menu_items
+  set category = btrim(p_new)
+  where category = p_old;
+end;
+$$;
+
+revoke all on function public.rename_menu_category(text, text, text) from public;
+grant execute on function public.rename_menu_category(text, text, text) to authenticated;
+
 insert into public.menu_categories (name, english_name, sort_order)
 values
   ('مشروبات الماتشا', 'Matcha Drinks', 1),
   ('الآساي', 'Acai', 2),
   ('كرواسون', 'Croissants', 3),
   ('قهوة ساخنة', 'Hot Drinks', 4),
-  ('مشروبات ساخنة', 'Hot Drinks', 5),
   ('مشروبات باردة', 'Cold Drinks', 6),
-  ('قهوة باردة', 'Cold Drinks', 7),
-  ('مشروبات مثلجة', 'Cold Drinks', 8),
   ('مشروبات الموهيتو', 'Mojitos', 9),
   ('حلويات', 'Desserts', 10),
   ('مياه', 'Water', 11),

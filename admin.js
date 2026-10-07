@@ -2,10 +2,11 @@ const $ = selector => document.querySelector(selector);
 const config = window.BUNNAN_SUPABASE_CONFIG || {};
 const hasConfig = Boolean(config.url && config.anonKey && window.supabase);
 const OWNER_AUTH_EMAIL = 'bunnan-admin@bunnan.invalid';
-const BUILT_IN_CATEGORIES = new Set([...MENU.cats, 'مشروبات ساخنة', 'قهوة باردة', 'مشروبات مثلجة']);
+const BUILT_IN_CATEGORIES = new Set(MENU.cats);
 let items = [];
 let categories = [];
 let editingId = null;
+let editingCategoryName = null;
 let selectedImage = null;
 let previewUrl = '';
 let client = null;
@@ -99,6 +100,9 @@ function renderCategoryList() {
     label.textContent = `${category.name} · ${category.english_name}`;
     entry.append(label);
 
+    const editButton = makeButton('تعديل', 'button-secondary category-edit', () => editCategory(category));
+    entry.append(editButton);
+
     if (BUILT_IN_CATEGORIES.has(category.name)) {
       const marker = document.createElement('span');
       marker.className = 'category-default-label';
@@ -115,6 +119,24 @@ function renderCategoryList() {
     entry.append(deleteButton);
     return entry;
   }));
+}
+
+function editCategory(category) {
+  editingCategoryName = category.name;
+  $('#category-name').value = category.name;
+  $('#category-name').readOnly = BUILT_IN_CATEGORIES.has(category.name);
+  $('#category-en').value = category.english_name;
+  $('#category-form button[type="submit"]').textContent = 'حفظ القسم';
+  $('#cancel-category-edit').hidden = false;
+  $('#category-name').focus();
+}
+
+function cancelCategoryEdit() {
+  editingCategoryName = null;
+  $('#category-form').reset();
+  $('#category-name').readOnly = false;
+  $('#category-form button[type="submit"]').textContent = 'إضافة القسم';
+  $('#cancel-category-edit').hidden = true;
 }
 
 function renderItems() {
@@ -258,7 +280,7 @@ async function loadCategories() {
   return true;
 }
 
-async function addCategory(event) {
+async function saveCategory(event) {
   event.preventDefault();
   const name = $('#category-name').value.trim().normalize('NFC');
   const englishName = $('#category-en').value.trim();
@@ -267,29 +289,37 @@ async function addCategory(event) {
     return;
   }
 
-  const duplicate = categories.some(category =>
+  const duplicate = categories.some(category => category.name !== editingCategoryName && (
     category.name.normalize('NFC') === name ||
-    category.english_name.trim().toLocaleLowerCase() === englishName.toLocaleLowerCase());
+    category.english_name.trim().toLocaleLowerCase() === englishName.toLocaleLowerCase()));
   if (duplicate) {
     setStatus('هذا القسم أو اسمه الإنجليزي موجود بالفعل.', true);
     return;
   }
 
-  setStatus('جاري إضافة القسم…');
+  const previousName = editingCategoryName;
+  setStatus(previousName ? 'جاري حفظ تعديل القسم…' : 'جاري إضافة القسم…');
   try {
-    const { error } = await client.from('menu_categories').insert({
-      name,
-      english_name: englishName,
-      sort_order: categories.length
-    });
+    const { error } = previousName
+      ? await client.rpc('rename_menu_category', {
+        p_old: previousName,
+        p_new: name,
+        p_en: englishName
+      })
+      : await client.from('menu_categories').insert({
+        name,
+        english_name: englishName,
+        sort_order: categories.length
+      });
     if (error) throw error;
 
-    $('#category-form').reset();
+    cancelCategoryEdit();
+    if (previousName) await loadItems();
     if (!(await loadCategories())) return;
-    setStatus(`تمت إضافة قسم «${name}».`);
+    setStatus(previousName ? `تم تعديل قسم «${name}».` : `تمت إضافة قسم «${name}».`);
   } catch (error) {
-    console.error('Could not add menu category.', error);
-    setStatus(error.code === '23505' ? 'هذا القسم موجود بالفعل.' : error.message || 'تعذرت إضافة القسم.', true);
+    console.error('Could not save menu category.', error);
+    setStatus(error.code === '23505' ? 'هذا القسم موجود بالفعل.' : error.message || 'تعذر حفظ القسم.', true);
   }
 }
 
@@ -453,7 +483,8 @@ if (!hasConfig) {
   });
 
   $('#menu-form').addEventListener('submit', event => saveItem(event));
-  $('#category-form').addEventListener('submit', event => addCategory(event));
+  $('#category-form').addEventListener('submit', event => saveCategory(event));
+  $('#cancel-category-edit').addEventListener('click', cancelCategoryEdit);
   $('#new-item').addEventListener('click', () => fillForm());
   $('#cancel-edit').addEventListener('click', () => fillForm());
   $('#delete-current').addEventListener('click', () => {

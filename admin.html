@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css?v=category-delete-20261006">
+<link rel="stylesheet" href="admin.css?v=category-edit-20261007">
 </head>
 <body>
 <header class="admin-header">
@@ -68,6 +68,7 @@
               <input id="category-en" type="text" lang="en" dir="ltr" maxlength="80" required>
             </label>
             <button class="button button-primary" type="submit">إضافة القسم</button>
+            <button class="button button-secondary" id="cancel-category-edit" type="button" hidden>إلغاء التعديل</button>
           </form>
           <ul class="category-list" id="category-list" aria-label="الأقسام الحالية"></ul>
         </details>
@@ -137,6 +138,6 @@
 <script src="menu.js?v=hibiscus-mojito-20261007"></script>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin.js?v=handoff-cortado-20261006"></script>
+<script src="admin.js?v=category-edit-20261007"></script>
 </body>
 </html>
